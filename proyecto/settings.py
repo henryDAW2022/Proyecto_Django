@@ -142,3 +142,5 @@ LOGOUT_REDIRECT_URL = '/login/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+### Indicamos que utilice el manager que hemos creado
+AUTH_USER_MODEL = 'bases.Usuario'
