@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 ## Importamos el manager
 from .manager import UsuarioManager
 
-# Create your models here.
+
 ## Extencion del modelo User de DJANGO, para autenticacion de usuarios.
 ## **Tenemos que crear un manager segun la documentacion de django, por la cual se administran las querys a la bd**.
 
@@ -37,7 +37,7 @@ class Usuario(AbstractBaseUser,PermissionsMixin): ## Estoy creando usuario que e
 
     def get_full_name(self):
         full_name = "%s %s" % (self.first_name, self.last_name)
-        return full_name.stript()
+        return full_name.strip()
     
     def get_short_name(self):
         return self.first_name
