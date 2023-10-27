@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views
 
 from bases.views import *
 
-app_name = "config"
+app_name = "config"  ## Esto lo utilizaremos para referirnos a la ruta bases...para la parte de views.
 
 urlpatterns = [
     path('',Home.as_view(),name='home'),
