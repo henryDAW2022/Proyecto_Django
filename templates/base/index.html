@@ -206,37 +206,72 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+          <li class="nav-item">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Starter Pages
+                Catálogo
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link active">
+                {% if perms.inv.view_categorias %}
+                <a href="{% url 'config:categorias' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Active Page</p>
+                  <p>Categoría</p>
+                </a>
+                {% endif %}
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'config:subcategorias' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Sub Categoría</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Inactive Page</p>
+                  <p>Marca</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Unidad de Medida</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Productos</p>
                 </a>
               </li>
             </ul>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+            <a href="#" class="nav-link ">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Simple Link
-                <span class="right badge badge-danger">New</span>
+                Movimientos
+                <!-- <span class="right badge badge-danger">New</span> -->
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'config:compras' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Compras</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Facturas</p>
+                </a>
+              </li>
+            </ul>
           </li>
         </ul>
       </nav>
@@ -391,6 +426,25 @@ $("#btnLogout").click(function(e){
   }).then((result)=>{
     if(result.isConfirmed){
       location.replace('{% url 'config:logout' %}')
+    }
+  })
+})
+
+$(document).ready(function(){
+  var $enlaces = $(".nav>.nav-item>.nav-link");
+
+  $($enlaces).each(function(){
+    var request_path = '{{request.path}}'
+    console.log(request_path)
+    var link = $(this).attr('href')
+    
+    if(request_path.includes(link) && link!="/"){
+      var grp_padre = $(this).parent().parent().parent().first()
+      var contenedor = grp_padre.children("a")
+      $(this).addClass("active")
+      grp_padre.addClass("menu-open")
+      contenedor.addClass("active")
+
     }
   })
 })
