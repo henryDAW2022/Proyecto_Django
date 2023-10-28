@@ -19,6 +19,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{% static 'plugins/SweetAlert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
   <!-- Toastr -->
   <link rel="stylesheet" href="{% static 'plugins/toastr/toastr.min.css' %}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static 'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
 </head>
@@ -154,11 +158,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
       </li>
+      {% if user.is_staff %} <!-- esto es para que solo aparezca para el usuario administrador --> 
       <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
+          <i class="fas fa-users-cog"></i>
         </a>
       </li>
+      {% endif %}
       <li class="nav-item">
         <a class="nav-link" id="btnLogout" href="#">
           <i class="fas fa-sign-out-alt"></i>
@@ -378,8 +384,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
     <div class="p-3">
-      <h5>Title</h5>
-      <p>Sidebar content</p>
+      <h5>Administración de Usuarios</h5>
+      <p><a href="{% url 'config:users_list' %}" rel="noopener noreferrer"><i class="fas fa-user-lock"></i>Usuarios</a></p>
+      <p><a href="#" rel="noopener noreferrer"><i class="fas fa-user"></i>Grupos</a></p>
     </div>
   </aside>
   <!-- /.control-sidebar -->
@@ -406,6 +413,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{% static 'plugins/jquery/jquery.min.js'%}"></script>
 <!-- Bootstrap 4 -->
 <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- DataTables & Plugins -->
+<script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'plugins/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'plugins/pdfmake/vfs_fonts.js' %}"></script>
+<script src="{% static 'plugins/pdfmake/pdfmake.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.colVis.js' %}"></script>
 <!-- SweetAlert2 -->
 <script src="{% static 'plugins/sweetalert2/sweetalert2.min.js' %}"></script>
 <!-- Toastr -->
@@ -435,7 +456,7 @@ $(document).ready(function(){
 
   $($enlaces).each(function(){
     var request_path = '{{request.path}}'
-    console.log(request_path)
+    // console.log(request_path)
     var link = $(this).attr('href')
     
     if(request_path.includes(link) && link!="/"){
@@ -447,6 +468,10 @@ $(document).ready(function(){
 
     }
   })
+  $("#tbl").DataTable({
+    "responsive":true, "lengthChange": false, "autoWidth": false, "buttons": ["copy", "csv", "excel","pdf","print", 'colvis']
+  }).buttons().container().appendTo('#tbl_wrapper .col-md-6:eq(0)');
+
 })
 </script>
 

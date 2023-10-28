@@ -1,0 +1,68 @@
+{% extends 'base/index.html' %}
+
+
+{% block content_wrapper %}
+<!-- Bloque de titulo del bloque contenido -->
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Listado de Usuarios</h1>
+            </div> <!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active">Listado de Usuarios</li>
+                </ol>
+            </div> <!-- /.col -->
+        </div> <!-- /.row -->
+    </div> <!-- /.container-fluid -->
+</div>
+
+{% endblock content_wrapper %}
+
+
+{% block content %}
+<!-- Bloque Contenido -->
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"> </h3>
+            </div>
+            <!-- /.Card-header -->
+            <div class="card-body">
+                <table id="tbl" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in obj %}
+                        <tr>
+                            <td>{{i.id}}</td>
+                            <td>{{i.email}}</td>
+                            <td>{{i.get_full_name}}</td>
+                            <td>
+                                {% if not item.is_staff %}
+                                <a href="" class="btn btn-sm text-success"><i class="fa fa-edit"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card-body -->
+    </div>
+</div>
+
+{% endblock content %}
