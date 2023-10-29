@@ -14,6 +14,11 @@ urlpatterns = [
     ## rutas lista usuarios
     path('users-lists',UserList.as_view(),name='users_list'),
 
+    ## rutas crear/modificar usuarios
+    path('users-add',user_admin,name='user_add'),
+    path('users-modify/<int:pk>',user_admin,name='user_modify'),
+
+    ## rutas menu derecha oculto
     path('catalogo/categorias',Home.as_view(),name='categorias'),
     path('catalogo/subcategorias',Home.as_view(),name='subcategorias'),
     path('movimientos/compras',Home.as_view(),name='compras'),
