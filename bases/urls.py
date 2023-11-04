@@ -12,11 +12,14 @@ urlpatterns = [
     path('logout/',auth_views.LogoutView.as_view(template_name='bases/login.html'),name='logout'),
 
     ## rutas lista usuarios
-    path('users-lists',UserList.as_view(),name='users_list'),
+    path('users/lists',UserList.as_view(),name='users_list'),
+
+    ## ruta lista usuarios GRUPOS
+    path('users/groups', UserGroupList.as_view(),name='user_groups_list'),
 
     ## rutas crear/modificar usuarios
-    path('users-add',user_admin,name='user_add'),
-    path('users-modify/<int:pk>',user_admin,name='user_modify'),
+    path('users/add',user_admin,name='user_add'),
+    path('users/modify/<int:pk>',user_admin,name='user_modify'),
 
     ## rutas menu derecha oculto
     path('catalogo/categorias',Home.as_view(),name='categorias'),

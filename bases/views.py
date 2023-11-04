@@ -69,3 +69,12 @@ def user_admin(request, pk=None):
         return redirect('config:users_list')
 
     return render(request,template_name,context)
+
+
+## Vista de grupos de usuarios
+class UserGroupList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    template_name ='bases/users_group_list.html'
+    login_url = 'config:login'
+    model = Group
+    permission_required = 'bases:view_usuario'
+    context_object_name = 'obj'
