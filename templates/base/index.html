@@ -446,7 +446,7 @@ $("#btnLogout").click(function(e){
     cancelButtonText: 'No, Cancelar'
   }).then((result)=>{
     if(result.isConfirmed){
-      location.replace('{% url 'config:logout' %}')
+      location.replace("{% url 'config:logout' %}")
     }
   })
 })

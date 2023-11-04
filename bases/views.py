@@ -3,6 +3,7 @@ from django.views.generic import *
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import Group, Permission
 from django.contrib.auth.hashers import make_password  ## para no ver la password
+from django.contrib.auth.decorators import login_required, permission_required
 
 from .models import Usuario
 from .forms import Userform
@@ -20,6 +21,8 @@ class UserList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = 'bases:view_usuario'
     context_object_name = 'obj'
     
+@login_required(login_url='config:login')   ## Incluimos estas lineas, 
+@permission_required('bases.change_usuario',login_url='config:home') ## para asegurar los permisos de edicion y modificacion de datos si el usuario no dispone de permisos
 ## Vista para crear o modificar un usuario
 def user_admin(request, pk=None):
     template_name = "bases/users_add.html"
