@@ -5,6 +5,7 @@ from django.contrib.auth.models import Group, Permission
 from django.contrib.auth.hashers import make_password  ## para no ver la password
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Q
+from django.http import HttpResponse
 
 from .models import Usuario
 from .forms import Userform
@@ -101,7 +102,43 @@ def user_groups_admin(request,pk=None):
         permisos = Permission.objects.filter(~Q(group=obj))  ## devuelve todos los permisos donde no este asignado obj
         context["permisos"] = permisos
     
-    print(permisos)
-    print(permisos_grupo)
+    # print(permisos)
+    # print(permisos_grupo)  ## ver que es lo que esta sucediendo
     
+    ## Comprobamos si existe el grupo.
+    if request.method == 'POST':
+        name = request.POST.get("name")
+        grp = Group.objects.filter(name=name).first()
+
+        if grp and grp.id != pk:
+            print("El grupo ya existe, elija otro nombre para crearlo")
+            return redirect("config:user_groups_new")
+
+        if not grp and pk != None: ## El grupo existe, se esta cambiando el nombre
+            grp = Group.objects.filter(id=pk).first()
+            grp.name = name
+            grp.save()
+        elif not grp and pk == None:
+            grp = Group(name=name)
+        else:
+            ...
+        
+        grp.save()
+        return redirect("config:user_groups_modify", grp.id)
+
     return render(request,template_name,context)
+
+
+## Vista eliminar grupos de usuarios
+@login_required(login_url='config:login')
+@permission_required('bases.change_usuario',login_url='bases:login')
+def user_group_delete(request,pk):
+    if request.method == "POST":
+        grp = Group.objects.filter(id=pk).first()
+
+        if not grp:
+            print("Groupo no Existe")
+        else:
+            grp.delete()
+        
+        return HttpResponse("OK")

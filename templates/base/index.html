@@ -473,9 +473,44 @@ $(document).ready(function(){
   }).buttons().container().appendTo('#tbl_wrapper .col-md-6:eq(0)');
 
 })
+
+function abrir_borrar(desc,url){
+  Swal.fire({
+    title: "¿Borrar?",
+    text: `Se borrará el grupo:  ${desc}`,
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonText: 'Si, Borrar',
+    cancelButtonText: 'No, Cancelar',
+    allowOutsideClick: false,
+    
+  }).then((borrar)=>{
+    console.log(borrar)
+    if(borrar.isConfirmed){
+      var token = "{{csrf_token}}"
+      $.ajax({
+        headers : {"X-CSRFToken": token},
+        type: "POST",
+        url : url,
+        success: function(r){
+          if(r==="OK"){
+            location.reload(true)
+          }else{
+            Swal.fire("Error Inesperado al tratar de eliminar el grupo "+ r)
+          }
+        },
+        error: function(jqXHR,textStatus, errorThrow){
+          Swal.fire(errorThrow,"","warning")
+        }
+      })
+    }else{
+      Swal.fire("Accion Cancelada......","","info")
+    }
+  })
+}
+
+
 </script>
-
-
 
 </body>
 </html>

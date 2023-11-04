@@ -18,6 +18,7 @@ urlpatterns = [
     path('users/groups/list', UserGroupList.as_view(),name='user_groups_list'),
     path('users/groups/add',user_groups_admin,name='user_groups_new'),
     path('users/groups/modify/<int:pk>',user_groups_admin,name='user_groups_modify'),
+    path('users/groups/delete/<int:pk>',user_group_delete,name='user_groups_delete'),
 
     ## rutas crear/modificar usuarios
     path('users/add',user_admin,name='user_add'),

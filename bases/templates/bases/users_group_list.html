@@ -52,7 +52,7 @@
                             <td>
                                 
                                 <a href="{% url 'config:user_groups_modify' i.id %}" class="btn btn-sm text-success"><i class="fa fa-edit"></i></a>
-                                
+                                <button type="button" class="btn btn-sm text-danger" onclick='return abrir_borrar("{{i.name}}","{% url 'config:user_groups_delete' i.id %}")'><i class="far fa-trash-alt"></i></button>
                             </td>
                         </tr>
                         {% endfor %}
