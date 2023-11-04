@@ -22,7 +22,7 @@ class UserList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     
 ## Vista para crear o modificar un usuario
 def user_admin(request, pk=None):
-    template_name = "bases/userd_add.html"
+    template_name = "bases/users_add.html"
     context = {}
     form = None
     obj = None
@@ -32,7 +32,7 @@ def user_admin(request, pk=None):
         if not pk:
             form = Userform(instance= None)
         else:
-            obj = Usuario.objeects.filter(id=pk).first()
+            obj = Usuario.objects.filter(id=pk).first()
             form = Userform(instance = obj)
         context["form"] = form
         context["obj"] = obj
@@ -44,7 +44,7 @@ def user_admin(request, pk=None):
         p = data.get("password")
 
         if pk:   ## validamos si existe el pk.
-             obj = Usuario.objeects.filter(id=pk).first()
+             obj = Usuario.objects.filter(id=pk).first()
              if not obj:
                 print("Error, el usuario no existe")
              else:
@@ -55,7 +55,7 @@ def user_admin(request, pk=None):
                 obj.save()
         
         else:  ## opcion en el caso de que no exista ese pk, usuario nuevo.
-            obj = Usuario.objecs.create_user(
+            obj = Usuario.objects.create_user(
                 email = e,
                 password = p,
                 first_name = fn,

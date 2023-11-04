@@ -30,7 +30,8 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title"> </h3>
+                <!-- <h3 class="card-title"> </h3> -->
+                <a href="{% url 'config:user_add' %}" class="btn btn-app bg-info"><i class="fas fa-user-plus"></i></a>
             </div>
             <!-- /.Card-header -->
             <div class="card-body">
@@ -50,8 +51,10 @@
                             <td>{{i.email}}</td>
                             <td>{{i.get_full_name}}</td>
                             <td>
-                                {% if not item.is_staff %}
-                                <a href="" class="btn btn-sm text-success"><i class="fa fa-edit"></i></a>
+                                {% if not i.is_staff %}
+                                <a href="{% url 'config:user_modify' i.id %}" class="btn btn-sm text-success"><i class="fa fa-edit"></i></a>
+                                {% elif user.is_staff %}
+                                <a href="{% url 'config:user_modify' i.id %}" class="btn btn-sm text-success"><i class="fa fa-edit"></i></a>
                                 {% endif %}
                             </td>
                         </tr>
