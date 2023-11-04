@@ -31,7 +31,7 @@
         <div class="card">
             <div class="card-header">
                 <!-- <h3 class="card-title"> </h3> -->
-                <a href="{% url 'config:user_add' %}" class="btn btn-app bg-info"><i class="fas fa-plus-circle"></i></a>
+                <a href="{% url 'config:user_groups_new' %}" class="btn btn-app bg-info"><i class="fas fa-plus-circle"></i></a>
             </div>
             <!-- /.Card-header -->
             <div class="card-body">
@@ -51,7 +51,7 @@
                             
                             <td>
                                 
-                                <a href="{% url 'config:user_modify' i.id %}" class="btn btn-sm text-success"><i class="fa fa-edit"></i></a>
+                                <a href="{% url 'config:user_groups_modify' i.id %}" class="btn btn-sm text-success"><i class="fa fa-edit"></i></a>
                                 
                             </td>
                         </tr>

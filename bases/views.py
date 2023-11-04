@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib.auth.models import Group, Permission
 from django.contrib.auth.hashers import make_password  ## para no ver la password
 from django.contrib.auth.decorators import login_required, permission_required
+from django.db.models import Q
 
 from .models import Usuario
 from .forms import Userform
@@ -78,3 +79,29 @@ class UserGroupList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Group
     permission_required = 'bases:view_usuario'
     context_object_name = 'obj'
+
+
+@login_required(login_url='config:login')
+@permission_required('bases.change_usuario',login_url='bases:login')
+def user_groups_admin(request,pk=None):
+    template_name = 'bases/users_group_add.html'
+    context = {}
+
+    obj = Group.objects.filter(id=pk).first()
+    context["obj"] = obj
+    permisos = {}
+    permisos_grupo = {}
+    context["permisos"] = permisos
+    context["permisos_grupo"] = permisos_grupo
+
+    if obj:
+        permisos_grupo = obj.permissions.all()
+        context["permisos_grupo"] = permisos_grupo
+
+        permisos = Permission.objects.filter(~Q(group=obj))  ## devuelve todos los permisos donde no este asignado obj
+        context["permisos"] = permisos
+    
+    print(permisos)
+    print(permisos_grupo)
+    
+    return render(request,template_name,context)

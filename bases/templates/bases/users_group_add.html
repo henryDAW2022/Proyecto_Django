@@ -1,0 +1,99 @@
+{% extends 'base/index.html' %}
+
+
+{% block content_wrapper %}
+<!-- Bloque de titulo del bloque contenido -->
+
+
+{% endblock content_wrapper %}
+
+
+{% block content %}
+<!-- Bloque Contenido -->
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                {% if obj %} Editar {% else %} Crear {% endif %} Grupo de Usuario
+            </div>
+            <div class="card-body">
+                <form class="form-group" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="exampleInputEmail">Nombre</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Nombre Grupo" value="{{obj.name}}">                        
+                    </div>
+                    <button type="submit" class="btn bg-success btn-app" ><i class="fas fa-save"></i>Guardar</button>
+                    <button type="reset" class="btn bg-danger btn-app"><i class="fas fa-window-close"></i>Cancelar</button>
+                    <a href="{% url 'config:user_groups_list' %}" class="btn btn-app bg-info"><i class="far fa-hand-point-left"></i>Regresar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% if obj %}
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header">
+                Permisos del Grupo {{ obj }}
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="tblGrp" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in permisos_grupo %}
+                        <tr>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>
+                                <a href="{% url 'config:user_modify' item.id %}" class="btnbtn-smtext-success"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header">
+                Permisos
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="tbl" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in permisos %}
+                        <tr>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>
+                                <a href="{% url 'config:user_modify' item.id %}" class="btnbtn-smtext-success"><i class="fas fa-plus"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock content %}
