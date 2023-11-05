@@ -43,6 +43,17 @@ def user_admin(request, pk=None):
             form = Userform(instance = obj)
         context["form"] = form
         context["obj"] = obj
+
+        ## Añado permisos (Grupos) a usuarios
+        grupos_usuarios = None
+        grupos = None
+        if obj:
+            grupos_usuarios = obj.groups.all() ## obtengo todos los grupos que estan asignados al usuario
+            grupos = Group.objects.filter(~Q(id__in=obj.groups.values('id'))) ## devuelve todos los grupos menos los que ya estan asignados al usuario
+
+        context["grupos_usuario"] = grupos_usuarios
+        context["grupos"] = grupos
+
     if request.method == 'POST':
         data = request.POST       ## capturamos los datos del formulario
         e = data.get("email")

@@ -51,12 +51,69 @@
                         </form>
                     </div>
                     <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto enim quidem maxime recusandae accusamus mollitia incidunt corrupti facilis. Minus consequuntur qui vitae incidunt, totam vel voluptatibus quas ipsa expedita cum!
-                        Quibusdam doloribus culpa quas officia animi velit unde. Nisi, rem sed natus quidem vero commodi neque suscipit optio, facilis corrupti, nesciunt minima error modi ipsum beatae quas saepe dolore dicta!
-                        Laboriosam optio a vel numquam, culpa ut perferendis minima earum pariatur necessitatibus quasi alias, corporis suscipit. Nam, nostrum. Iure porro accusantium repudiandae itaque explicabo assumenda ea voluptatem similique voluptatibus nihil!
-                        Aperiam, quod vero expedita architecto autem suscipit. Optio corporis impedit expedita ipsa accusantium vel alias assumenda mollitia eum aperiam libero, ipsam nulla, facere non soluta quos atque quo? Alias, voluptate.
-                        Delectus minima recusandae deleniti libero? Ea magni saepe maxime eligendi repellat deserunt voluptatum sunt nesciunt. Officia aperiam vel adipisci ea provident quos excepturi dicta saepe libero. Maxime quidem perferendis inventore.
-                        Qui ea, consectetur provident ut tempore assumenda vitae id perspiciatis atque culpa at consequuntur facilis reiciendis pariatur maxime aliquid sit, numquam est labore ullam voluptates animi enim ratione sequi. Quisquam?
+                        <!-- Grupos:{{grupos}}<br>Grupos de Usuario:{{grupos_usuario}} -->
+                        {% if obj %}
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        Grupos de Usuario {{obj}}
+                                    </div>
+                                    <div class="card-body">
+                                        <table id="tblGrp" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Nombre</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in grupos_usuario %}
+                                                <tr>
+                                                    <td>{{item.id}}</td>
+                                                    <td>{{item.name}}</td>
+                                                    <td>
+                                                        <a href="#" class="btn btn-sm text-success" onclick="permiso('{{item.id}}','DEL')"><i class="far fa-trash-alt"></i></a>
+                                                    </td>
+                                                </tr>
+                                                {%endfor%}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        Grupos
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Nombre</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in grupos %}
+                                                <tr>
+                                                    <td>{{item.id}}</td>
+                                                    <td>{{item.name}}</td>
+                                                    <td>
+                                                        <a href="#" class="btn btn-sm text-success" onclick="permiso('{{item.id}}','ADD')"><i class="fas fa-plus"></i></a>
+                                                    </td>
+                                                </tr>
+                                                {%endfor%}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {%endif%}
                     </div>
                 </div>
             </div>
