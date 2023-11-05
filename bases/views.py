@@ -188,3 +188,29 @@ def user_group_permission(request,id_grp,id_perm):
         return HttpResponse("OK")    
 
     return Http404("Método no Reconocido")
+
+
+## Vista añadir usuario a un grupo o eliminarlo de un grupo
+@login_required(login_url='config:login')
+@permission_required('bases.change_usuario',login_url='bases:login')
+def user_group_add(request,id_usr,id_grp):
+    if request.method == "POST":
+        usr = Usuario.objects.filter(id=id_usr).first()
+        if not usr:
+            return HttpResponse("Usuario No Existe")
+        
+        accion = request.POST.get("accion")
+        grp = Group.objects.filter(id=id_grp).first()
+
+        if not grp:
+            return HttpResponse("Grupo No Existe")
+        if accion == "ADD":
+            usr.groups.add(grp)
+        elif accion=="DEL":
+            usr.groups.remove(grp)
+        else:
+            return HttpResponse("Accion no Reconocida")
+        
+        return HttpResponse("OK")
+    
+    return HttpResponse("Error método no reconocido")

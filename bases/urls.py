@@ -22,6 +22,7 @@ urlpatterns = [
 
     ## Permisos grupos
     path('users/groups/permission/<int:id_grp>/<int:id_perm>', user_group_permission, name='user_groups_permission'),
+    path('users/groups/admin/<int:id_usr>/<int:id_grp>',user_group_add, name="user_groups_admin"),
 
     ## rutas crear/modificar usuarios
     path('users/add',user_admin,name='user_add'),

@@ -123,3 +123,34 @@
 
 
 {% endblock content %}
+
+{%block js%}
+<script>
+    function permiso(id,accion){
+        // alert(id)
+        // alert(accion)   verifico si estamos obteniendo los valores
+
+        var url = "/users/groups/admin/{{obj.id}}/" + id
+        var token = '{{csrf_token}}'
+        var data = {"accion":accion}
+        $.ajax({
+            headers: {"X-CSRFToken": token},
+            type: "POST",
+            url: url,
+            data:data,
+            success: function(r){
+                if(r =="OK"){
+                    location.reload(true)
+                }else{
+                    Swal.fire("Error Inesperado tratando de borrar Grupo "+r);
+                }
+            },
+            error: function(jqXHR,textStatus, errorThrow){
+                console.log(textStatus, errorThrow);
+                Swal.fire(errorThrow,"","warning");
+            }
+        })
+    }
+</script>
+
+{%endblock js%}
