@@ -509,8 +509,20 @@ function abrir_borrar(desc,url){
   })
 }
 
-
+function mensaje(msg,tipo="info"){
+  var tst = `toastr.${tipo}('${msg}')`
+  eval(tst)
+}
+{% if messages %}
+  {% for m in messages %}
+  mensaje("{{m}}","{{m.tags}}")
+  {%endfor%}
+{%endif%}
 </script>
+
+{% block js %}
+
+{% endblock js %}
 
 </body>
 </html>

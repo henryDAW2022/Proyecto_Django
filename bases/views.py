@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render,redirect
 from django.views.generic import *
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -5,7 +6,8 @@ from django.contrib.auth.models import Group, Permission
 from django.contrib.auth.hashers import make_password  ## para no ver la password
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import request
+from django.http.response import HttpResponse,Http404
 
 from .models import Usuario
 from .forms import Userform
@@ -112,6 +114,7 @@ def user_groups_admin(request,pk=None):
 
         if grp and grp.id != pk:
             print("El grupo ya existe, elija otro nombre para crearlo")
+            messages.error(request,"El grupo ya existe, elija otro nombre para crearlo")
             return redirect("config:user_groups_new")
 
         if not grp and pk != None: ## El grupo existe, se esta cambiando el nombre
@@ -124,6 +127,7 @@ def user_groups_admin(request,pk=None):
             ...
         
         grp.save()
+        messages.success(request,"Grupo Creado Satisfactoriamente")
         return redirect("config:user_groups_modify", grp.id)
 
     return render(request,template_name,context)
@@ -140,5 +144,36 @@ def user_group_delete(request,pk):
             print("Groupo no Existe")
         else:
             grp.delete()
-        
+        messages.success(request,"Grupo Eliminado Satisfactoriamente")
         return HttpResponse("OK")
+
+
+## Vista permisos grupos
+@login_required(login_url='config:login')
+@permission_required('bases.change_usuario',login_url='bases:login')
+def user_group_permission(request,id_grp,id_perm):
+    if(request.method == "POST"):
+        grp = Group.objects.filter(id=id_grp).first()
+
+        if not grp:
+            messages.error(request,"Grupo No Existe")
+            return HttpResponse("Grupo No Existe")
+        
+        accion = request.POST.get("accion")
+        perm = Permission.objects.filter(id=id_perm).first()
+        if not perm:
+            messages.error(request,"Permiso no existe")
+            return HttpResponse("Permiso No Existe")
+
+        if accion == "ADD":
+            grp.permissions.add(perm)
+            messages.success(request,"Permiso Agregado")
+        elif accion == "DEL":
+            grp.permissions.remove(perm)
+            messages.success(request,"Permiso Eliminado")
+        else:
+            messages.error(request,"Accion no Reconocida")
+            return HttpResponse("Accion No Reconocida")
+        return HttpResponse("OK")    
+
+    return Http404("Método no Reconocido")

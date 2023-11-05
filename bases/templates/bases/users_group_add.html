@@ -55,7 +55,7 @@
                             <td>{{ item.id }}</td>
                             <td>{{ item.name }}</td>
                             <td>
-                                <a href="{% url 'config:user_modify' item.id %}" class="btnbtn-smtext-success"><i class="far fa-trash-alt"></i></a>
+                                <a href="#" class="btn btn-sm text-danger" onclick="permiso('{{item.id}}','DEL')"><i class="far fa-trash-alt"> </i> &nbsp; Quitar</a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -85,7 +85,7 @@
                             <td>{{ item.id }}</td>
                             <td>{{ item.name }}</td>
                             <td>
-                                <a href="{% url 'config:user_modify' item.id %}" class="btnbtn-smtext-success"><i class="fas fa-plus"></i></a>
+                                <a href="#" class="btnbtn-smtext-success" onclick="permiso('{{item.id}}','ADD')"><i class="fas fa-plus"> </i>&nbsp; Añadir</a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -97,3 +97,33 @@
 </div>
 {% endif %}
 {% endblock content %}
+
+{% block js %}
+<script>
+    function permiso(id, accion){
+        var url = "/users/groups/permission/{{obj.id}}/" + id
+        var token = '{{csrf_token}}'
+        var data = {"accion": accion}
+
+        console.log(url,token,data) /* compruebo la funcion*/
+
+        $.ajax({
+            headers: {"X-CSRFToken": token},
+            type: "POST",
+            url: url,
+            data: data,
+            success: function(response){
+                if(response === "OK"){
+                    location.reload(true)
+                }else{
+                    Swal.fire(response,"","warning")
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrow){
+                console.log(textStatus,errorThrow);
+                Swal.fire(errorThrow,"","warning");
+            }
+        })
+    }
+</script>
+{% endblock js %}
