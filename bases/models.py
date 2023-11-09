@@ -42,4 +42,13 @@ class Usuario(AbstractBaseUser,PermissionsMixin): ## Estoy creando usuario que e
     def get_short_name(self):
         return self.first_name
 
-    
+    ## Clase Modelo, que comparten las tablas Inventario
+class ClaseModelo(models.Model):
+    estado = models.BooleanField(default=True) ## esta activo por defecto.
+    fc = models.DateTimeField(auto_now_add=True) ## fecha creacion.
+    fm = models.DateTimeField(auto_now=True)  ## fecha modificacion, siempre que se haga una accion sobre la tabla (Creacion o Modificacion).
+    uc = models.ForeignKey(Usuario, on_delete=models.CASCADE)   ## Usuario que crea el registro Foreign Key.
+    um = models.IntegerField(blank=True,null=True) ## simplemente ponemos un campo puesto que no podemos tener dos foreignKey de la misma tabal.
+
+    class Meta:
+        abstract=True  ## Esto se hace para que no se migre este modelo a la base de datos. ya q hemos hecho un modelo abstracto.
