@@ -72,7 +72,7 @@
 
 
 ## Bibliografía <a name="12"></a>
-- [Python] (https://www.python.org/)
+- <a href="https://www.python.org/">Python </a>
 - DJANGO <a href=""></a>
 - JavaScript <a href=""></a>
 - AJAX <a href=""></a>
