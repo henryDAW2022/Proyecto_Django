@@ -74,6 +74,12 @@
   </div>
 {% endblock content %}
 
-{% block js_page %}
-
-{% endblock js_page %}
+{% block js %}
+<script>
+  // Aplicar DataTables JQuery plugin
+  // Simplemente indica que cuando se haya inicializado el DOM, se cargue la tabla.
+  $(document).ready(function() {
+    $('.table').DataTable();
+  });
+</script>
+{% endblock js %}
