@@ -72,3 +72,22 @@
 
 
 ## Bibliografía <a name="12"></a>
+- Python <a href="https://www.python.org/"></a>
+- DJANGO <a href=""></a>
+- JavaScript <a href=""></a>
+- AJAX <a href=""></a>
+- JQuery <a href=""></a>
+- Bootstrap <a href=""></a>
+- PosgresSQL <a href=""></a>
+- CSS <a href=""></a>
+- HTML <a href=""></a>
+- Youtube:
+    - <a href=""></a>
+    - <a href=""></a>
+    - <a href=""></a>
+    - <a href=""></a>
+    - <a href=""></a>
+    - <a href=""></a>
+    - <a href=""></a>
+    - <a href=""></a>
+    - <a href=""></a>
