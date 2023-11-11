@@ -43,3 +43,10 @@ class CategoriaEdit(LoginRequiredMixin, generic.UpdateView):
         form.instance.um = self.request.user.id
         return super().form_valid(form)
  
+## Vista para eliminar una Categoria existente en el modelo.
+class CategoriaDel(LoginRequiredMixin, generic.DeleteView):
+    model=Categoria
+    template_name='inv/catalogos_del.html' ## a este template le ponemos un nombre mas generico, para utilizarlo con los demas modelos que se vayan implementando.
+    context_object_name='obj'
+    success_url=reverse_lazy("inv:categoria_list")  ## utilizamos categoria_list, porque mostraremos un mensaje para asegurarnos de que se quiere eliminar el registro.
+    success_message="Categoría Eliminada Satisfactoriamente"
