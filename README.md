@@ -17,17 +17,6 @@
     - [Presentación - Final](#11)
     - [Bibliografía](#12)
 
-## Ta-Do List <a name="9"></a>
-
-💻📝
-
-- [x] Tarea 1
-- [x] Tarea 2
-- [x] Tarea 3
-- [ ] Tarea 4
-- [ ] Tarea 5
-
-
 <h3 align="left">Introduccion:</h3><a name="1"></a>
 
 > Este repositorio recoge el desarrollo del proyecto de fin de ciclo en el que se presenta un sistema de gestion para autonomos o pyme cuyo modelo de negocio es la compra venta de productos, por medio del cual se puede hacer un seguimiento de ventas y compras, y a su vez del inventario.
@@ -40,12 +29,15 @@
 
 
 
+## To-Do List <a name="9"></a>
 
+💻📝
 
-
-
-
-
+- [x] Tarea 1
+- [x] Tarea 2
+- [x] Tarea 3
+- [ ] Tarea 4
+- [ ] Tarea 5
 
 
 <h3 align="left">Vista Final:</h3><a name="2"></a>
