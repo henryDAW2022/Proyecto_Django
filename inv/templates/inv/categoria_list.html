@@ -62,7 +62,7 @@
                   <td>{{ item.fc|date:"d/m/Y H:i:s" }}</td>    <!-- Aplicamos el mismo formato de fecha  -->
                   <td>{{ item.fm|date:"d/m/Y H:i:s" }}</td>
                   <td>
-                    <a href="{% url 'inv:categoria_edit' item.id %}" class="btn btn-warning btn-circle" role="button"><i class="far fa-edit"></i></a> 
+                    <a href="{% url 'inv:categoria_edit' item.id %}" class="btn btn-info btn-circle" role="button"><i class="far fa-edit"></i></a> 
                     <a href="{% url 'inv:categoria_del' item.id %}" class="btn btn-danger btn-circle" role="button"><i class="far fa-trash-alt"></i></a>
                   </td>
               </tr>

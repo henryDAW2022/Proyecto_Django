@@ -230,9 +230,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 {% endif %}
               </li>
               <li class="nav-item">
-                <a href="{% url 'config:subcategorias' %}" class="nav-link">
+                <a href="{% url 'inv:subcategoria_list' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Sub Categoría</p>
+                  <p>Sub Categorías</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -312,9 +312,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Main content -->
     <div class="content">
-      {% block content %}
+      
       <div class="container-fluid">
-        
+        {% block content %}
         <!-- <div class="row">
           <div class="col-lg-6">
             <div class="card">
@@ -343,7 +343,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <a href="#" class="card-link">Another link</a>
               </div>
             </div><!-- /.card -->
-          </div>
+          <!--</div>-->
           <!-- /.col-md-6 -->
           <div class="col-lg-6">
             <div class="card">
@@ -371,16 +371,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
           </div>
           <!-- /.col-md-6 -->
-        </div> -->
+        <!--</div> -->
         <!-- /.row -->
+        {% endblock content %}
       </div><!-- /.container-fluid -->
       
     </div>
-    {% endblock content %}
+    
     <!-- /.content -->
+    
   </div>
   <!-- /.content-wrapper -->
-
+  
+  
   {% block control_sidebar %}
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
