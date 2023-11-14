@@ -6,8 +6,8 @@ from django.views import generic
 # para ver las categorias sera necesario estar logeado..
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Categoria, Marca, SubCategoria  ## importamos el modelo en el cual vamos a actuar.
-from .forms import CategoriaForm, MarcaForm, SubCategoriaForm ## importamos el formulario sobre el cual daremos de alta,eliminaremos o editaremos las categorias
+from .models import Categoria, Marca, SubCategoria, UnidadMedida  ## importamos el modelo en el cual vamos a actuar.
+from .forms import CategoriaForm, MarcaForm, SubCategoriaForm, UMForm ## importamos el formulario sobre el cual daremos de alta,eliminaremos o editaremos las categorias
 
 class CategoriaView(LoginRequiredMixin, generic.ListView):
     model = Categoria
@@ -155,5 +155,59 @@ def marca_desactivar(request, id):
         marca.estado=False
         marca.save()
         return redirect("inv:marca_list")
+
+    return render(request,template_name,contexto)
+
+## Vistas para Unidad de Medida
+class UMView(LoginRequiredMixin, generic.ListView):
+    model = UnidadMedida
+    template_name = "inv/um_list.html"
+    context_object_name = "obj"
+    
+
+class UMNew(LoginRequiredMixin,
+                   generic.CreateView):
+    model=UnidadMedida
+    template_name="inv/um_form.html"
+    context_object_name = 'obj'
+    form_class=UMForm
+    success_url= reverse_lazy("inv:um_list")
+    success_message="Unidad Medida Creada"
+
+    def form_valid(self, form):
+        form.instance.uc = self.request.user
+        print(self.request.user.id)
+        return super().form_valid(form)
+
+
+class UMEdit(LoginRequiredMixin,
+                   generic.UpdateView):
+    model=UnidadMedida
+    template_name="inv/um_form.html"
+    context_object_name = 'obj'
+    form_class=UMForm
+    success_url= reverse_lazy("inv:um_list")
+    success_message="Unidad Medida Editada"
+
+    def form_valid(self, form):
+        form.instance.um = self.request.user.id
+        print(self.request.user.id)
+        return super().form_valid(form)
+
+def um_desactivar(request, id):
+    um = UnidadMedida.objects.filter(pk=id).first()
+    contexto={}
+    template_name="inv/catalogos_del.html"
+
+    if not um:
+        return redirect("inv:um_list")
+    
+    if request.method=='GET':
+        contexto={'obj':um}
+    
+    if request.method=='POST':
+        um.estado=False
+        um.save()
+        return redirect("inv:um_list")
 
     return render(request,template_name,contexto)
