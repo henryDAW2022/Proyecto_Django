@@ -15,7 +15,7 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
           <div class="dropdown-header">Acciones:</div>
-          <a class="dropdown-item" onclick="" href="#"><i class="far fa-calendar-plus"></i> Nuevo</a>
+          <a class="dropdown-item" onclick="return abrir_modal('{% url 'inv:producto_new' %}')" href="#"><i class="far fa-calendar-plus"></i> Nuevo</a> <!-- aqui aplicamos la ventana modal-->
         </div>
       </div>
     </div>

@@ -1,10 +1,4 @@
-{% extends 'base/index.html' %}
 
-{% block content_wrapper %}
-
-{% endblock content_wrapper %}
-
-{% block content %}
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
         {% if obj %}
@@ -22,14 +16,16 @@
                     <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            {% if obj %} Editar {% else %} Nueva {% endif %} Producto
+                            {% if obj %} Editar {% else %} Nuevo {% endif %} Producto
                         </div>
                         <div class="dropdown-divider"></div>
                         {% csrf_token %}
                         <div class="row">
-                            {#{ form.as_p }#}
+                            {{ form.as_p }}
                         </div>
-                        <div class="row">
+
+
+                        <!-- <div class="row">
                             <div class="col-md-6">
                                 <div class="col-md-6">{{form.codigo.label}}</div>
                                 <div class="col-md-6">{{form.codigo}}</div>
@@ -104,15 +100,15 @@
                                     </select>
                                 </div>
                             </div>                           
-                        </div>
+                        </div> -->
                         
 
                         <div class="dropdown-divider"></div>
                         <div class="row">
                             <div class="col">
-                                <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span> Guardar</button>
+                                <button type="submit" class="btn btn-success"><span class="fa fa-save"></span> Guardar</button>
                                 <!-- <a href="{% url 'inv:um_list' %}" class="btn btn-success"><span class="fa fa-undo"></span>Cancelar</a> -->
-                                <button type="button" class="btn btn-success" onclick="">
+                                <button type="button" class="btn btn-danger" onclick="return cerrar_modal()">
                                     Cancelar
                                 </button>
                             </div>
@@ -128,15 +124,3 @@
         </form>
     </div>
 </div>
-
-{% endblock content %}
-
-{% block js %}
-<script>
-    $(function() {
-        $("#id_categoria").val("{{ obj.subcategoria.categoria.id }}").change();
-        $("#id_subcategoria").val("{{ obj.subcategoria.id }}").change();
-        $("#id_subcategoria").chained("#id_categoria");
-    });
-</script>
-{% endblock js %}

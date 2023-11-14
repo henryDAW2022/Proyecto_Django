@@ -180,7 +180,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Brand Logo -->
     <a href="{% url 'bases:home' %}" class="brand-link">
       <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">Aplicacion TEST</span>
     </a>
 
     <!-- Sidebar -->
@@ -411,7 +411,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   {% endblock footer %}
 </div>
 <!-- ./wrapper -->
-
+<!-- modal page productos -->
+<div class="modal fade" id="popup"></div>
 <!-- REQUIRED SCRIPTS -->
 
 <!-- jQuery -->
@@ -528,6 +529,58 @@ function mensaje(msg,tipo="info"){
 {% block js %}
 
 {% endblock js %}
+
+<!-- js para pagina modal productos  -->
+{% block control_modal%}
+  <script>
+    function abrir_modal(url)
+    {
+
+      $("#popup").load(url, function(){
+        $(this).modal({
+          backdrop:'static',
+          keyboard: false
+        })
+        $(this).modal('show');
+      });
+      return false;
+    }
+
+    function cerrar_modal()
+    {
+      $('#popup').modal('hide');
+      return false;
+    }
+
+    function mensaje(msg,color='green')
+    {
+      if (color=="success")
+      {
+        color="green";
+      }
+      if (color=="error")
+      {
+        color="red";
+      }
+
+
+      $.alert({
+        title:'',
+        theme:'material',
+        type:color,
+        content:msg
+      });
+    }
+
+    {% if messages %}
+      {% for message in messages %}
+        console.log("{{ message.tags }}");
+        mensaje("{{ message }}","{{ message.tags }}");
+      {% endfor %}
+    {% endif %}
+
+  </script>
+{% endblock%}
 
 </body>
 </html>
