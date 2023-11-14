@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import CategoriaDel, CategoriaView, CategoriaNew, CategoriaEdit, MarcaEdit, MarcaNew, MarcaView, SubCategoriaDel, \
-SubCategoriaView,SubCategoriaEdit, SubCategoriaNew
+SubCategoriaView,SubCategoriaEdit, SubCategoriaNew, marca_desactivar
 
 # \ es un salto de linea para seguir con el misma linea de codigo
 
@@ -21,4 +21,5 @@ urlpatterns = [
     path('marcas/',MarcaView.as_view(),name='marca_list'),
     path('marcas/new',MarcaNew.as_view(),name='marca_new'),
     path('marcas/edit/<int:pk>',MarcaEdit.as_view(),name='marca_edit'),
+    path('marcas/desactivar/<int:id>',marca_desactivar,name='marca_desactivar'),
 ]
