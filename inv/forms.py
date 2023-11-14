@@ -2,7 +2,7 @@
 
 from django import forms
 
-from .models import Categoria, Marca, SubCategoria, UnidadMedida  ## importo el modelo sobre el que voy a actuar
+from .models import Categoria, Marca, Producto, SubCategoria, UnidadMedida  ## importo el modelo sobre el que voy a actuar
 
 
 
@@ -76,3 +76,22 @@ class UMForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({
                 'class': 'form-control'
             })
+
+## Forms para Producto
+class ProductoForm(forms.ModelForm):
+    class Meta:
+        model=Producto
+        fields=['codigo','codigo_barra','descripcion','estado', \
+                'precio','existencia','ultima_compra',
+                'marca','subcategoria','unidad_medida']
+        exclude = ['um','fm','uc','fc']  ## Se puede especificar que campos queremos excluir en la salida
+        widget={'descripcion': forms.TextInput()}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control'
+            })
+        self.fields['ultima_compra'].widget.attrs['readonly'] = True  ## esto significa que no son campos editables
+        self.fields['existencia'].widget.attrs['readonly'] = True

@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .views import CategoriaDel, CategoriaView, CategoriaNew, CategoriaEdit, MarcaEdit, MarcaNew, MarcaView, SubCategoriaDel, \
-SubCategoriaView,SubCategoriaEdit, SubCategoriaNew, UMEdit, UMNew, UMView, marca_desactivar, um_desactivar
+from .views import CategoriaDel, CategoriaView, CategoriaNew, CategoriaEdit, MarcaEdit, MarcaNew, MarcaView, ProductoEdit, ProductoNew, ProductoView, SubCategoriaDel, \
+SubCategoriaView,SubCategoriaEdit, SubCategoriaNew, UMEdit, UMNew, UMView, marca_desactivar, producto_desactivar, um_desactivar
 
 # \ es un salto de linea para seguir con el misma linea de codigo
 
@@ -28,4 +28,10 @@ urlpatterns = [
     path('um/new',UMNew.as_view(), name="um_new"),
     path('um/edit/<int:pk>',UMEdit.as_view(), name="um_edit"),
     path('um/desactivar/<int:id>',um_desactivar, name="um_desactivar"),
+
+    ## Productos
+    path('productos/',ProductoView.as_view(), name="producto_list"),
+    path('productos/new',ProductoNew.as_view(), name="producto_new"),
+    path('productos/edit/<int:pk>',ProductoEdit.as_view(), name="producto_edit"),
+    path('productos/desactivar/<int:id>',producto_desactivar, name="producto_desactivar"),
 ]

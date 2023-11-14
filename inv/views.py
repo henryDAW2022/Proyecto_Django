@@ -6,8 +6,8 @@ from django.views import generic
 # para ver las categorias sera necesario estar logeado..
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Categoria, Marca, SubCategoria, UnidadMedida  ## importamos el modelo en el cual vamos a actuar.
-from .forms import CategoriaForm, MarcaForm, SubCategoriaForm, UMForm ## importamos el formulario sobre el cual daremos de alta,eliminaremos o editaremos las categorias
+from .models import Categoria, Marca, Producto, SubCategoria, UnidadMedida  ## importamos el modelo en el cual vamos a actuar.
+from .forms import CategoriaForm, MarcaForm, ProductoForm, SubCategoriaForm, UMForm ## importamos el formulario sobre el cual daremos de alta,eliminaremos o editaremos las categorias
 
 class CategoriaView(LoginRequiredMixin, generic.ListView):
     model = Categoria
@@ -209,5 +209,59 @@ def um_desactivar(request, id):
         um.estado=False
         um.save()
         return redirect("inv:um_list")
+
+    return render(request,template_name,contexto)
+
+
+## Vistas Producto(s)
+class ProductoView(LoginRequiredMixin, generic.ListView):
+    model = Producto
+    template_name = "inv/producto_list.html"
+    context_object_name = "obj"
+
+
+class ProductoNew(LoginRequiredMixin,
+                   generic.CreateView):
+    model=Producto
+    template_name="inv/producto_form.html"
+    context_object_name = 'obj'
+    form_class=ProductoForm
+    success_url= reverse_lazy("inv:producto_list")
+    success_message="Producto Creado"
+
+    def form_valid(self, form):
+        form.instance.uc = self.request.user
+        return super().form_valid(form)
+
+
+class ProductoEdit(LoginRequiredMixin,
+                   generic.UpdateView):
+    model=Producto
+    template_name="inv/producto_form.html"
+    context_object_name = 'obj'
+    form_class=ProductoForm
+    success_url= reverse_lazy("inv:producto_list")
+    success_message="Producto Editado"
+
+    def form_valid(self, form):
+        form.instance.um = self.request.user.id
+        return super().form_valid(form)
+
+
+def producto_desactivar(request, id):
+    prod = Producto.objects.filter(pk=id).first()
+    contexto={}
+    template_name="inv/catalogos_del.html"
+
+    if not prod:
+        return redirect("inv:producto_list")
+    
+    if request.method=='GET':
+        contexto={'obj':prod}
+    
+    if request.method=='POST':
+        prod.estado=False
+        prod.save()
+        return redirect("inv:producto_list")
 
     return render(request,template_name,contexto)
