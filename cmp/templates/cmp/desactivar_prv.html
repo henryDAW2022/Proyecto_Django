@@ -1,0 +1,28 @@
+<div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <form method="POST" class="form-inline">
+            {% csrf_token %}
+            <div class="col">
+                <div class="card border-left-danger shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase">
+                            <div class="alert">
+                                ¿ Desactivar <b>{{ obj.descripcion }} </b> ?
+                            </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <button type="button" class="btn btn-success" id="btnInactivar"><i class="far fa-question-circle"></i>Si, Desactivar</button>
+                        <button type="button" class="btn btn-danger" onclick="return cerrar_modal()">
+                            No, Cancelar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </form>
+    </div>
+  </div>
