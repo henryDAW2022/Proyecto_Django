@@ -2,7 +2,7 @@
 
 from django import forms
 
-from .models import Categoria, SubCategoria  ## importo el modelo sobre el que voy a actuar
+from .models import Categoria, Marca, SubCategoria  ## importo el modelo sobre el que voy a actuar
 
 
 
@@ -42,3 +42,20 @@ class SubCategoriaForm(forms.ModelForm): ## hacemos la herencia para poder utili
             })
                 ## vamos a indicar por defecto el combo
         self.fields['categoria'].empty_label = "Selecciona Categoría"
+
+## Forms para MARCA
+## Mismo proceso que anteriores forms
+class MarcaForm(forms.ModelForm):
+    class Meta:
+        model=Marca
+        fields = ['descripcion','estado']
+        labels= {'descripcion': "Descripción de la Marca",
+                "estado":"Estado"}
+        widget={'descripcion': forms.TextInput()}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control'
+            })

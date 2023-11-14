@@ -6,8 +6,8 @@ from django.views import generic
 # para ver las categorias sera necesario estar logeado..
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Categoria, SubCategoria  ## importamos el modelo en el cual vamos a actuar.
-from .forms import CategoriaForm, SubCategoriaForm ## importamos el formulario sobre el cual daremos de alta,eliminaremos o editaremos las categorias
+from .models import Categoria, Marca, SubCategoria  ## importamos el modelo en el cual vamos a actuar.
+from .forms import CategoriaForm, MarcaForm, SubCategoriaForm ## importamos el formulario sobre el cual daremos de alta,eliminaremos o editaremos las categorias
 
 class CategoriaView(LoginRequiredMixin, generic.ListView):
     model = Categoria
@@ -96,3 +96,43 @@ class SubCategoriaDel(LoginRequiredMixin, generic.DeleteView):
     context_object_name='obj'
     success_url=reverse_lazy("inv:subcategoria_list")  ## utilizamos categoria_list, porque mostraremos un mensaje para asegurarnos de que se quiere eliminar el registro.
     success_message="Categoría Eliminada Satisfactoriamente"
+
+## Seguimos el mismo patron para los demas modelos creados Marca, UnidadMedida, etc.
+
+## Vistas para Marca
+class MarcaView(LoginRequiredMixin,\
+     generic.ListView):
+    permission_required = "inv.view_marca"
+    model = Marca
+    template_name = "inv/marca_list.html"
+    context_object_name = "obj"
+
+
+class MarcaNew(LoginRequiredMixin,
+                   generic.CreateView):
+    model=Marca
+    template_name="inv/marca_form.html"
+    context_object_name = 'obj'
+    form_class=MarcaForm
+    success_url= reverse_lazy("inv:marca_list")
+    success_message="Marca Creada"
+    permission_required="inv.add_marca"
+
+    def form_valid(self, form):
+        form.instance.uc = self.request.user
+        return super().form_valid(form)
+
+
+class MarcaEdit(LoginRequiredMixin,
+                   generic.UpdateView):
+    model=Marca
+    template_name="inv/marca_form.html"
+    context_object_name = 'obj'
+    form_class=MarcaForm
+    success_url= reverse_lazy("inv:marca_list")
+    success_message="Marca Editada"
+    permission_required="inv.change_marca"
+
+    def form_valid(self, form):
+        form.instance.um = self.request.user.id
+        return super().form_valid(form)

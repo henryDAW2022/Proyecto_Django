@@ -42,3 +42,25 @@ class SubCategoria(ClaseModelo):
     class Meta:
         verbose_name_plural= "Sub Categorias"
         unique_together = ('categoria','descripcion')
+
+
+## Para el resto de las clases seguiremos el mismo proceso
+## Heredamos los campos de la claseModelo, añadimos el campo descripcion y sus restricciones,
+## Sobreescribimos los metodos --str-- , save() y aplicamos el plural para el modelo en Meta.
+
+class Marca(ClaseModelo):
+    descripcion = models.CharField(
+        max_length=100,
+        help_text='Descripción de la Marca',
+        unique=True
+    )
+
+    def __str__(self):
+        return '{}'.format(self.descripcion)
+
+    def save(self):
+        self.descripcion = self.descripcion.upper()
+        super(Marca, self).save()
+
+    class Meta:
+        verbose_name_plural = "Marca"
