@@ -25,8 +25,8 @@
 <div class="card shadow mb-4">
     <!-- Card Header - Dropdown -->
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-      <h6 class="m-0 font-weight-bold text-primary">Listado de Categorías</h6>
-      <div class="dropdown no-arrow">
+      <!-- <h6 class="m-0 font-weight-bold text-primary">Listado de Categorías</h6> -->
+      <!-- <div class="dropdown no-arrow">
         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
         </a>
@@ -37,7 +37,10 @@
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
-      </div>
+      </div> -->
+      <!-- <div class="card-header"> -->
+        <a class="btn bg-info" href="{% url 'inv:categoria_new' %}"><i class="fas fa-plus-circle"> </i> &nbsp; Add. Nueva</a>
+      <!-- </div> -->
     </div>
     <!-- Card Body -->
     <div class="card-body">
@@ -62,8 +65,10 @@
                   <td>{{ item.fc|date:"d/m/Y H:i:s" }}</td>    <!-- Aplicamos el mismo formato de fecha  -->
                   <td>{{ item.fm|date:"d/m/Y H:i:s" }}</td>
                   <td>
-                    <a href="{% url 'inv:categoria_edit' item.id %}" class="btn btn-info btn-circle" role="button"><i class="far fa-edit"></i></a> 
-                    <a href="{% url 'inv:categoria_del' item.id %}" class="btn btn-danger btn-circle" role="button"><i class="far fa-trash-alt"></i></a>
+                    <a href="{% url 'inv:categoria_edit' item.id %}" class="btn btn-info btn-circle" role="button"><i class="far fa-edit"></i> &nbsp;Editar </a> 
+                    <!-- <a href="{% url 'inv:categoria_del' item.id %}" class="btn btn-danger btn-circle" role="button"><i class="far fa-trash-alt"></i>&nbsp;Eliminar </a> -->
+                    <button class="btn btn-danger btn-circle" onclick="return abrir_modal('{% url 'inv:categoria_del' item.id %}')">
+                      <i class="far fa-thumbs-down"></i></button>
                   </td>
               </tr>
               {% endfor %}

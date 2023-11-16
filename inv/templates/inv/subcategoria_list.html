@@ -1,11 +1,30 @@
 {% extends 'base/index.html' %}
+{% block content_wrapper %}
+<!-- Bloque de titulo del bloque contenido -->
 
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Listado de SubCategorías</h1>
+            </div> <!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active">Listado de SubCategorías</li>
+                </ol>
+            </div> <!-- /.col -->
+        </div> <!-- /.row -->
+    </div> <!-- /.container-fluid -->
+</div>
+
+{% endblock content_wrapper %}
 
 {% block content %}
 <div class="card shadow mb-4">
     <!-- Card Header - Dropdown -->
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-      <h6 class="m-0 font-weight-bold text-primary">Listado de Sub Categorías</h6>
+      <!-- <h6 class="m-0 font-weight-bold text-primary">Listado de Sub Categorías</h6>
       <div class="dropdown no-arrow">
         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -14,7 +33,8 @@
           <div class="dropdown-header">Acciones</div>
           <a class="dropdown-item" href="{% url 'inv:subcategoria_new' %}"><i class="far fa-calendar-plus"></i> Nueva</a>
         </div>
-      </div>
+      </div> -->
+      <a class="btn bg-info" href="{% url 'inv:subcategoria_new' %}"><i class="fas fa-plus-circle"></i> &nbsp; Add. Nueva</a>
     </div>
     <!-- Card Body -->
     <div class="card-body">
@@ -42,7 +62,9 @@
                   <td>{{ item.fm|date:"d/m/Y H:i:s" }}</td>
                   <td>
                     <a href="{% url 'inv:subcategoria_edit' item.id %}" class="btn btn-info btn-circle" role="button"><i class="far fa-edit"></i></a> 
-                    <a href="{% url 'inv:subcategoria_del' item.id %}" class="btn btn-danger btn-circle" role="button"><i class="far fa-trash-alt"></i></a>
+                    <!-- <a href="{% url 'inv:subcategoria_del' item.id %}" class="btn btn-danger btn-circle" role="button"><i class="far fa-trash-alt"></i></a> -->
+                    <button class="btn btn-danger btn-circle" onclick="return abrir_modal('{% url 'inv:subcategoria_del' item.id %}')">
+                      <i class="far fa-thumbs-down"></i></button>
                   </td>
               </tr>
               {% endfor %}

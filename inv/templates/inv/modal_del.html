@@ -1,0 +1,29 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+  <form method="POST" class="form-inline">
+      {% csrf_token %}
+        <div class="col-xl-12 col-md-12 mb-12">
+            <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                     <div class="row no-gutters align-items-center"> 
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text text-uppercase mb-1">¿Eliminar o Desactivar: &nbsp; {{ obj.descripcion }}?</div>
+                            
+                            <button type="submit" class="btn btn-success"><i class="far fa-check-circle"></i>&nbsp; Si, Continuar</button>
+                            <!-- <a href="{% url 'inv:categoria_list' %}" class="btn btn-success"><span class="fa fa-undo"></span>Cancelar</a> -->
+                            <button type="button" class="btn btn-danger" onclick="return cerrar_modal()">
+                                Cancelar
+                            </button>
+                            
+                        </div>
+                        
+                        <div class="col-auto">
+                            <i class="far fa-question-circle fa-2x text-gray-300"></i>
+                        </div>
+                     </div> 
+                </div>
+            </div>
+        </div>
+  </form>
+  </div>
+  </div>

@@ -6,6 +6,9 @@ from django.views import generic
 # para ver las categorias sera necesario estar logeado..
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+# para trabajar con mensajes cuando realizamos alguna accion en las plantillas
+from django.contrib.messages.views import SuccessMessageMixin
+
 from .models import Categoria, Marca, Producto, SubCategoria, UnidadMedida  ## importamos el modelo en el cual vamos a actuar.
 from .forms import CategoriaForm, MarcaForm, ProductoForm, SubCategoriaForm, UMForm ## importamos el formulario sobre el cual daremos de alta,eliminaremos o editaremos las categorias
 
@@ -16,13 +19,14 @@ class CategoriaView(LoginRequiredMixin, generic.ListView):
     login_url = 'config:login'
 
  ## Vista para crear nueva Categoria en el modelo.
-class CategoriaNew(LoginRequiredMixin, generic.CreateView):
+class CategoriaNew(SuccessMessageMixin,LoginRequiredMixin, generic.CreateView):
     model = Categoria
     template_name = "inv/categoria_form.html"
     context_object_name = "obj"
     form_class = CategoriaForm
     success_url = reverse_lazy('inv:categoria_list')  ## ruta al tener exito en el evento.
     login_url = "config:login"
+    success_message = "Categoría Creada Satisfactoriamente"
 
     ## Necesitamos obtener el id del usuario que crea la categoria, por eso sobreescribimos la funcion
     def form_valid(self, form):
@@ -30,13 +34,14 @@ class CategoriaNew(LoginRequiredMixin, generic.CreateView):
         return super().form_valid(form)
 
  ## Vista para editar una Categoria existente en el modelo.
-class CategoriaEdit(LoginRequiredMixin, generic.UpdateView):
+class CategoriaEdit(SuccessMessageMixin,LoginRequiredMixin, generic.UpdateView):
     model = Categoria
     template_name = "inv/categoria_form.html"
     context_object_name = "obj"
     form_class = CategoriaForm
     success_url = reverse_lazy('inv:categoria_list')  ## ruta al tener exito en el evento.
     login_url = "config:login"
+    success_message = "Categoría Actualizada Satisfactoriamente"
 
     ## Necesitamos obtener el id del usuario que modifica la categoria, por eso sobreescribimos la funcion y obtenemos el id.
     def form_valid(self, form):
@@ -44,9 +49,9 @@ class CategoriaEdit(LoginRequiredMixin, generic.UpdateView):
         return super().form_valid(form)
  
 ## Vista para eliminar una Categoria existente en el modelo.
-class CategoriaDel(LoginRequiredMixin, generic.DeleteView):
+class CategoriaDel(SuccessMessageMixin,LoginRequiredMixin, generic.DeleteView):
     model=Categoria
-    template_name='inv/catalogos_del.html' ## a este template le ponemos un nombre mas generico, para utilizarlo con los demas modelos que se vayan implementando.
+    template_name='inv/modal_del.html' ## a este template le ponemos un nombre mas generico, para utilizarlo con los demas modelos que se vayan implementando.
     context_object_name='obj'
     success_url=reverse_lazy("inv:categoria_list")  ## utilizamos categoria_list, porque mostraremos un mensaje para asegurarnos de que se quiere eliminar el registro.
     success_message="Categoría Eliminada Satisfactoriamente"
@@ -62,13 +67,14 @@ class SubCategoriaView(LoginRequiredMixin, generic.ListView):
     login_url = "config:login"
 
  ## Vista para crear nueva SubCategoria en el modelo.
-class SubCategoriaNew(LoginRequiredMixin, generic.CreateView):
+class SubCategoriaNew(SuccessMessageMixin, LoginRequiredMixin, generic.CreateView):
     model = SubCategoria
     template_name = "inv/subcategoria_form.html"
     context_object_name = "obj"
     form_class = SubCategoriaForm
     success_url = reverse_lazy('inv:subcategoria_list')  ## ruta al tener exito en el evento.
     login_url = "config:login"
+    success_message="Categoría Creada Satisfactoriamente"
 
     ## Necesitamos obtener el id del usuario que crea la categoria, por eso sobreescribimos la funcion
     def form_valid(self, form):
@@ -76,13 +82,14 @@ class SubCategoriaNew(LoginRequiredMixin, generic.CreateView):
         return super().form_valid(form)
 
  ## Vista para editar una SubCategoria existente en el modelo.
-class SubCategoriaEdit(LoginRequiredMixin, generic.UpdateView):
+class SubCategoriaEdit(SuccessMessageMixin, LoginRequiredMixin, generic.UpdateView):
     model = SubCategoria
     template_name = "inv/subcategoria_form.html"
     context_object_name = "obj"
     form_class = SubCategoriaForm
     success_url = reverse_lazy('inv:subcategoria_list')  ## ruta al tener exito en el evento.
     login_url = "config:login"
+    success_message="Categoría Actualizada Satisfactoriamente"
 
     ## Necesitamos obtener el id del usuario que modifica la categoria, por eso sobreescribimos la funcion y obtenemos el id.
     def form_valid(self, form):
@@ -90,12 +97,12 @@ class SubCategoriaEdit(LoginRequiredMixin, generic.UpdateView):
         return super().form_valid(form)
 
 ## Vista para eliminar una SubCategoria existente en el modelo.
-class SubCategoriaDel(LoginRequiredMixin, generic.DeleteView):
+class SubCategoriaDel(SuccessMessageMixin, LoginRequiredMixin, generic.DeleteView):
     model=SubCategoria
-    template_name='inv/catalogos_del.html' ## a este template le ponemos un nombre mas generico, para utilizarlo con los demas modelos que se vayan implementando.
+    template_name='inv/modal_del.html' ## a este template le ponemos un nombre mas generico, para utilizarlo con los demas modelos que se vayan implementando.
     context_object_name='obj'
     success_url=reverse_lazy("inv:subcategoria_list")  ## utilizamos categoria_list, porque mostraremos un mensaje para asegurarnos de que se quiere eliminar el registro.
-    success_message="Categoría Eliminada Satisfactoriamente"
+    success_message="SubCategoría Eliminada Satisfactoriamente"
 
 ## Seguimos el mismo patron para los demas modelos creados Marca, UnidadMedida, etc.
 
@@ -108,14 +115,14 @@ class MarcaView(LoginRequiredMixin,\
     context_object_name = "obj"
 
 
-class MarcaNew(LoginRequiredMixin,
+class MarcaNew(SuccessMessageMixin,LoginRequiredMixin,
                    generic.CreateView):
     model=Marca
     template_name="inv/marca_form.html"
     context_object_name = 'obj'
     form_class=MarcaForm
     success_url= reverse_lazy("inv:marca_list")
-    success_message="Marca Creada"
+    success_message="Marca Creada Satisfactoriamente"
     permission_required="inv.add_marca"
 
     def form_valid(self, form):
@@ -123,14 +130,14 @@ class MarcaNew(LoginRequiredMixin,
         return super().form_valid(form)
 
 
-class MarcaEdit(LoginRequiredMixin,
+class MarcaEdit(SuccessMessageMixin,LoginRequiredMixin,
                    generic.UpdateView):
     model=Marca
     template_name="inv/marca_form.html"
     context_object_name = 'obj'
     form_class=MarcaForm
     success_url= reverse_lazy("inv:marca_list")
-    success_message="Marca Editada"
+    success_message="Marca Actualizada Satisfactoriamente"
     permission_required="inv.change_marca"
 
     def form_valid(self, form):
@@ -143,7 +150,7 @@ class MarcaEdit(LoginRequiredMixin,
 def marca_desactivar(request, id):
     marca = Marca.objects.filter(pk=id).first()
     contexto = {}
-    template_name = "inv/catalogos_del.html"
+    template_name = "inv/modal_del.html"
 
     if not marca:
         return redirect("inv:marca_list")
@@ -165,14 +172,14 @@ class UMView(LoginRequiredMixin, generic.ListView):
     context_object_name = "obj"
     
 
-class UMNew(LoginRequiredMixin,
+class UMNew(SuccessMessageMixin,LoginRequiredMixin,
                    generic.CreateView):
     model=UnidadMedida
     template_name="inv/um_form.html"
     context_object_name = 'obj'
     form_class=UMForm
     success_url= reverse_lazy("inv:um_list")
-    success_message="Unidad Medida Creada"
+    success_message="Unidad Medida Creada Satisfactoriamente"
 
     def form_valid(self, form):
         form.instance.uc = self.request.user
@@ -180,14 +187,14 @@ class UMNew(LoginRequiredMixin,
         return super().form_valid(form)
 
 
-class UMEdit(LoginRequiredMixin,
+class UMEdit(SuccessMessageMixin,LoginRequiredMixin,
                    generic.UpdateView):
     model=UnidadMedida
     template_name="inv/um_form.html"
     context_object_name = 'obj'
     form_class=UMForm
     success_url= reverse_lazy("inv:um_list")
-    success_message="Unidad Medida Editada"
+    success_message="Unidad Medida Actualizada Satisfactoriamente"
 
     def form_valid(self, form):
         form.instance.um = self.request.user.id
@@ -197,7 +204,7 @@ class UMEdit(LoginRequiredMixin,
 def um_desactivar(request, id):
     um = UnidadMedida.objects.filter(pk=id).first()
     contexto={}
-    template_name="inv/catalogos_del.html"
+    template_name="inv/modal_del.html"
 
     if not um:
         return redirect("inv:um_list")
@@ -220,28 +227,28 @@ class ProductoView(LoginRequiredMixin, generic.ListView):
     context_object_name = "obj"
 
 
-class ProductoNew(LoginRequiredMixin,
+class ProductoNew(SuccessMessageMixin,LoginRequiredMixin,
                    generic.CreateView):
     model=Producto
     template_name="inv/producto_form.html"
     context_object_name = 'obj'
     form_class=ProductoForm
     success_url= reverse_lazy("inv:producto_list")
-    success_message="Producto Creado"
+    success_message="Producto Creado Satisfactoriamente"
 
     def form_valid(self, form):
         form.instance.uc = self.request.user
         return super().form_valid(form)
 
 
-class ProductoEdit(LoginRequiredMixin,
+class ProductoEdit(SuccessMessageMixin,LoginRequiredMixin,
                    generic.UpdateView):
     model=Producto
     template_name="inv/producto_form.html"
     context_object_name = 'obj'
     form_class=ProductoForm
     success_url= reverse_lazy("inv:producto_list")
-    success_message="Producto Editado"
+    success_message="Producto Actualizado Satisfactoriamente"
 
     def form_valid(self, form):
         form.instance.um = self.request.user.id
@@ -251,7 +258,7 @@ class ProductoEdit(LoginRequiredMixin,
 def producto_desactivar(request, id):
     prod = Producto.objects.filter(pk=id).first()
     contexto={}
-    template_name="inv/catalogos_del.html"
+    template_name="inv/modal_del.html"
 
     if not prod:
         return redirect("inv:producto_list")
