@@ -6,8 +6,9 @@ from django.contrib.auth.models import Group, Permission
 from django.contrib.auth.hashers import make_password  ## para no ver la password
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Q
-from django.http import request
+from django.http import request, HttpResponseRedirect
 from django.http.response import HttpResponse,Http404
+from django.urls import reverse_lazy
 
 from .models import Usuario
 from .forms import Userform
@@ -17,16 +18,32 @@ class Home(LoginRequiredMixin,TemplateView):
     template_name = 'bases/home.html'
     login_url = 'config:login'
 
+
+## Vista sustituyendo a 404 forbiden
+class HomeSinPrivilegios(TemplateView):
+    template_name = "bases/sin_privilegios.html"
+
+class SinPrivilegios(LoginRequiredMixin,PermissionRequiredMixin): 
+    login_url = 'bases:login'
+    raise_exception=False
+    redirect_field_name="redirect_to"
+
+    def handle_no_permission(self) -> HttpResponseRedirect:
+        from django.contrib.auth.models import AnonymousUser ## Este punto es muy importante, ya que sin logearse se podria ver la vista de no tiene privilegios.
+        if not self.request.user==AnonymousUser():
+            self.login_url='bases:sin_privilegios'
+        return HttpResponseRedirect(reverse_lazy(self.login_url))
+
+
 ## Vista lista de usuarios
-class UserList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class UserList(SinPrivilegios, ListView):
     template_name ='bases/users_list.html'
-    login_url = 'config:login'
     model = Usuario
     permission_required = 'bases:view_usuario'
     context_object_name = 'obj'
     
 @login_required(login_url='config:login')   ## Incluimos estas lineas, 
-@permission_required('bases.change_usuario',login_url='config:home') ## para asegurar los permisos de edicion y modificacion de datos si el usuario no dispone de permisos
+@permission_required('bases.change_usuario',login_url='bases:sin_privilegios') ## para asegurar los permisos de edicion y modificacion de datos si el usuario no dispone de permisos
 ## Vista para crear o modificar un usuario
 def user_admin(request, pk=None):
     template_name = "bases/users_add.html"
@@ -87,16 +104,15 @@ def user_admin(request, pk=None):
 
 
 ## Vista de grupos de usuarios
-class UserGroupList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class UserGroupList(SinPrivilegios, ListView):
     template_name ='bases/users_group_list.html'
-    login_url = 'config:login'
     model = Group
     permission_required = 'bases:view_usuario'
     context_object_name = 'obj'
 
 
 @login_required(login_url='config:login')
-@permission_required('bases.change_usuario',login_url='bases:login')
+@permission_required('bases.change_usuario',login_url='bases:sin_privilegios')
 def user_groups_admin(request,pk=None):
     template_name = 'bases/users_group_add.html'
     context = {}
@@ -146,7 +162,7 @@ def user_groups_admin(request,pk=None):
 
 ## Vista eliminar grupos de usuarios
 @login_required(login_url='config:login')
-@permission_required('bases.change_usuario',login_url='bases:login')
+@permission_required('bases.change_usuario',login_url='bases:sin_privilegios')
 def user_group_delete(request,pk):
     if request.method == "POST":
         grp = Group.objects.filter(id=pk).first()
@@ -161,7 +177,7 @@ def user_group_delete(request,pk):
 
 ## Vista permisos grupos
 @login_required(login_url='config:login')
-@permission_required('bases.change_usuario',login_url='bases:login')
+@permission_required('bases.change_usuario',login_url='bases:sin_privilegios')
 def user_group_permission(request,id_grp,id_perm):
     if(request.method == "POST"):
         grp = Group.objects.filter(id=id_grp).first()
@@ -192,7 +208,7 @@ def user_group_permission(request,id_grp,id_perm):
 
 ## Vista añadir usuario a un grupo o eliminarlo de un grupo
 @login_required(login_url='config:login')
-@permission_required('bases.change_usuario',login_url='bases:login')
+@permission_required('bases.change_usuario',login_url='bases:bases:sin_privilegios')
 def user_group_add(request,id_usr,id_grp):
     if request.method == "POST":
         usr = Usuario.objects.filter(id=id_usr).first()

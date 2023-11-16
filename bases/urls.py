@@ -28,8 +28,7 @@ urlpatterns = [
     path('users/add',user_admin,name='user_add'),
     path('users/modify/<int:pk>',user_admin,name='user_modify'),
 
-    ## rutas menu derecha oculto
-    path('catalogo/categorias',Home.as_view(),name='categorias'),
-    path('catalogo/subcategorias',Home.as_view(),name='subcategorias'),
-    path('movimientos/compras',Home.as_view(),name='compras'),
+    ## ruta forbiden 404
+    path('sin_permisos/',HomeSinPrivilegios.as_view(),name='sin_privilegios')
+    
 ]

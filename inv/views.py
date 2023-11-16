@@ -3,8 +3,11 @@ from django.urls import reverse_lazy
 ## importamos el paquete de vista generica
 from django.views import generic
 
-# para ver las categorias sera necesario estar logeado..
-from django.contrib.auth.mixins import LoginRequiredMixin
+# para ver las categorias sera necesario estar logeado..... y para evitar que se vean vistas sin permiso utilizamos permissionrequiredmixin.
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin 
+
+## permisos requeridos en funciones
+from django.contrib.auth.decorators import login_required, permission_required
 
 # para trabajar con mensajes cuando realizamos alguna accion en las plantillas
 from django.contrib.messages.views import SuccessMessageMixin
@@ -12,20 +15,23 @@ from django.contrib.messages.views import SuccessMessageMixin
 from .models import Categoria, Marca, Producto, SubCategoria, UnidadMedida  ## importamos el modelo en el cual vamos a actuar.
 from .forms import CategoriaForm, MarcaForm, ProductoForm, SubCategoriaForm, UMForm ## importamos el formulario sobre el cual daremos de alta,eliminaremos o editaremos las categorias
 
-class CategoriaView(LoginRequiredMixin, generic.ListView):
+## importamos la vista sin permisos creada en el modulo bases
+from bases.views import SinPrivilegios
+
+class CategoriaView(SinPrivilegios, generic.ListView):
+    permission_required = "inv.view_categoria" ## se le indica cual es el permiso que se necesita para poder entrar a esta vista.
     model = Categoria
     template_name = "inv/categoria_list.html"
     context_object_name = "obj"
-    login_url = 'config:login'
 
  ## Vista para crear nueva Categoria en el modelo.
-class CategoriaNew(SuccessMessageMixin,LoginRequiredMixin, generic.CreateView):
+class CategoriaNew(SuccessMessageMixin,SinPrivilegios, generic.CreateView):
+    permission_required="inv.add_categoria"
     model = Categoria
     template_name = "inv/categoria_form.html"
     context_object_name = "obj"
     form_class = CategoriaForm
     success_url = reverse_lazy('inv:categoria_list')  ## ruta al tener exito en el evento.
-    login_url = "config:login"
     success_message = "Categoría Creada Satisfactoriamente"
 
     ## Necesitamos obtener el id del usuario que crea la categoria, por eso sobreescribimos la funcion
@@ -34,13 +40,13 @@ class CategoriaNew(SuccessMessageMixin,LoginRequiredMixin, generic.CreateView):
         return super().form_valid(form)
 
  ## Vista para editar una Categoria existente en el modelo.
-class CategoriaEdit(SuccessMessageMixin,LoginRequiredMixin, generic.UpdateView):
+class CategoriaEdit(SuccessMessageMixin,SinPrivilegios, generic.UpdateView):
+    permission_required="inv.change_categoria"
     model = Categoria
     template_name = "inv/categoria_form.html"
     context_object_name = "obj"
     form_class = CategoriaForm
     success_url = reverse_lazy('inv:categoria_list')  ## ruta al tener exito en el evento.
-    login_url = "config:login"
     success_message = "Categoría Actualizada Satisfactoriamente"
 
     ## Necesitamos obtener el id del usuario que modifica la categoria, por eso sobreescribimos la funcion y obtenemos el id.
@@ -49,7 +55,8 @@ class CategoriaEdit(SuccessMessageMixin,LoginRequiredMixin, generic.UpdateView):
         return super().form_valid(form)
  
 ## Vista para eliminar una Categoria existente en el modelo.
-class CategoriaDel(SuccessMessageMixin,LoginRequiredMixin, generic.DeleteView):
+class CategoriaDel(SuccessMessageMixin,SinPrivilegios, generic.DeleteView):
+    permission_required="inv.delete_categoria"
     model=Categoria
     template_name='inv/modal_del.html' ## a este template le ponemos un nombre mas generico, para utilizarlo con los demas modelos que se vayan implementando.
     context_object_name='obj'
@@ -60,21 +67,21 @@ class CategoriaDel(SuccessMessageMixin,LoginRequiredMixin, generic.DeleteView):
 #    SubCategoria  #
 ####################
  ## Vista para crear nueva SubCategoria en el modelo.
-class SubCategoriaView(LoginRequiredMixin, generic.ListView):
+class SubCategoriaView(SinPrivilegios, generic.ListView):
+    permission_required = "inv.view_subcategoria"
     model = SubCategoria
     template_name = "inv/subcategoria_list.html"
     context_object_name = "obj"
-    login_url = "config:login"
 
  ## Vista para crear nueva SubCategoria en el modelo.
-class SubCategoriaNew(SuccessMessageMixin, LoginRequiredMixin, generic.CreateView):
+class SubCategoriaNew(SuccessMessageMixin, SinPrivilegios, generic.CreateView):
+    permission_required="inv.add_subcategoria"
     model = SubCategoria
     template_name = "inv/subcategoria_form.html"
     context_object_name = "obj"
     form_class = SubCategoriaForm
     success_url = reverse_lazy('inv:subcategoria_list')  ## ruta al tener exito en el evento.
-    login_url = "config:login"
-    success_message="Categoría Creada Satisfactoriamente"
+    success_message="SubCategoría Creada Satisfactoriamente"
 
     ## Necesitamos obtener el id del usuario que crea la categoria, por eso sobreescribimos la funcion
     def form_valid(self, form):
@@ -82,14 +89,14 @@ class SubCategoriaNew(SuccessMessageMixin, LoginRequiredMixin, generic.CreateVie
         return super().form_valid(form)
 
  ## Vista para editar una SubCategoria existente en el modelo.
-class SubCategoriaEdit(SuccessMessageMixin, LoginRequiredMixin, generic.UpdateView):
+class SubCategoriaEdit(SuccessMessageMixin, SinPrivilegios, generic.UpdateView):
+    permission_required="inv.change_subcatetoria"
     model = SubCategoria
     template_name = "inv/subcategoria_form.html"
     context_object_name = "obj"
     form_class = SubCategoriaForm
     success_url = reverse_lazy('inv:subcategoria_list')  ## ruta al tener exito en el evento.
-    login_url = "config:login"
-    success_message="Categoría Actualizada Satisfactoriamente"
+    success_message="SubCategoría Actualizada Satisfactoriamente"
 
     ## Necesitamos obtener el id del usuario que modifica la categoria, por eso sobreescribimos la funcion y obtenemos el id.
     def form_valid(self, form):
@@ -97,7 +104,8 @@ class SubCategoriaEdit(SuccessMessageMixin, LoginRequiredMixin, generic.UpdateVi
         return super().form_valid(form)
 
 ## Vista para eliminar una SubCategoria existente en el modelo.
-class SubCategoriaDel(SuccessMessageMixin, LoginRequiredMixin, generic.DeleteView):
+class SubCategoriaDel(SuccessMessageMixin, SinPrivilegios, generic.DeleteView):
+    permission_required="inv.delete_subcategoria"
     model=SubCategoria
     template_name='inv/modal_del.html' ## a este template le ponemos un nombre mas generico, para utilizarlo con los demas modelos que se vayan implementando.
     context_object_name='obj'
@@ -107,7 +115,7 @@ class SubCategoriaDel(SuccessMessageMixin, LoginRequiredMixin, generic.DeleteVie
 ## Seguimos el mismo patron para los demas modelos creados Marca, UnidadMedida, etc.
 
 ## Vistas para Marca
-class MarcaView(LoginRequiredMixin,\
+class MarcaView(SinPrivilegios,\
      generic.ListView):
     permission_required = "inv.view_marca"
     model = Marca
@@ -115,7 +123,7 @@ class MarcaView(LoginRequiredMixin,\
     context_object_name = "obj"
 
 
-class MarcaNew(SuccessMessageMixin,LoginRequiredMixin,
+class MarcaNew(SuccessMessageMixin,SinPrivilegios,
                    generic.CreateView):
     model=Marca
     template_name="inv/marca_form.html"
@@ -130,7 +138,7 @@ class MarcaNew(SuccessMessageMixin,LoginRequiredMixin,
         return super().form_valid(form)
 
 
-class MarcaEdit(SuccessMessageMixin,LoginRequiredMixin,
+class MarcaEdit(SuccessMessageMixin,SinPrivilegios,
                    generic.UpdateView):
     model=Marca
     template_name="inv/marca_form.html"
@@ -147,6 +155,10 @@ class MarcaEdit(SuccessMessageMixin,LoginRequiredMixin,
 
 ##### Implemento la vista basada en funciones, para no eliminar los registros, si no simplemente desactivar el registro. 
 ## ejemplo con Marca
+
+##uso de decoradores django para permisos basados en funciones
+@login_required(login_url='/login/')
+@permission_required('inv.change_marca', login_url='bases:sin_privilegios')
 def marca_desactivar(request, id):
     marca = Marca.objects.filter(pk=id).first()
     contexto = {}
@@ -166,14 +178,15 @@ def marca_desactivar(request, id):
     return render(request,template_name,contexto)
 
 ## Vistas para Unidad de Medida
-class UMView(LoginRequiredMixin, generic.ListView):
+class UMView( SinPrivilegios, generic.ListView):
+    permission_required = "inv.view_unidad_medida"
     model = UnidadMedida
     template_name = "inv/um_list.html"
     context_object_name = "obj"
     
 
-class UMNew(SuccessMessageMixin,LoginRequiredMixin,
-                   generic.CreateView):
+class UMNew(SuccessMessageMixin,SinPrivilegios,generic.CreateView):
+    permission_required="inv.add_unidadmedida"
     model=UnidadMedida
     template_name="inv/um_form.html"
     context_object_name = 'obj'
@@ -187,8 +200,8 @@ class UMNew(SuccessMessageMixin,LoginRequiredMixin,
         return super().form_valid(form)
 
 
-class UMEdit(SuccessMessageMixin,LoginRequiredMixin,
-                   generic.UpdateView):
+class UMEdit(SuccessMessageMixin,SinPrivilegios,generic.UpdateView):
+    permission_required="inv.change_unidadmedida"
     model=UnidadMedida
     template_name="inv/um_form.html"
     context_object_name = 'obj'
@@ -201,6 +214,9 @@ class UMEdit(SuccessMessageMixin,LoginRequiredMixin,
         print(self.request.user.id)
         return super().form_valid(form)
 
+##uso de decoradores django para permisos basados en funciones
+@login_required(login_url='/login/')
+@permission_required('inv.change_unidadmedida', login_url='bases:sin_privilegios')
 def um_desactivar(request, id):
     um = UnidadMedida.objects.filter(pk=id).first()
     contexto={}
@@ -221,14 +237,15 @@ def um_desactivar(request, id):
 
 
 ## Vistas Producto(s)
-class ProductoView(LoginRequiredMixin, generic.ListView):
+class ProductoView( SinPrivilegios, generic.ListView):
+    permission_required = "inv.view_producto"
     model = Producto
     template_name = "inv/producto_list.html"
     context_object_name = "obj"
 
 
-class ProductoNew(SuccessMessageMixin,LoginRequiredMixin,
-                   generic.CreateView):
+class ProductoNew(SuccessMessageMixin,SinPrivilegios,generic.CreateView):
+    permission_required="inv.add_producto"
     model=Producto
     template_name="inv/producto_form.html"
     context_object_name = 'obj'
@@ -241,8 +258,8 @@ class ProductoNew(SuccessMessageMixin,LoginRequiredMixin,
         return super().form_valid(form)
 
 
-class ProductoEdit(SuccessMessageMixin,LoginRequiredMixin,
-                   generic.UpdateView):
+class ProductoEdit(SuccessMessageMixin,SinPrivilegios,generic.UpdateView):
+    permission_required="inv.change_producto"
     model=Producto
     template_name="inv/producto_form.html"
     context_object_name = 'obj'
@@ -254,7 +271,9 @@ class ProductoEdit(SuccessMessageMixin,LoginRequiredMixin,
         form.instance.um = self.request.user.id
         return super().form_valid(form)
 
-
+##uso de decoradores django para permisos basados en funciones
+@login_required(login_url='/login/')
+@permission_required('inv.change_producto', login_url='bases:sin_privilegios')
 def producto_desactivar(request, id):
     prod = Producto.objects.filter(pk=id).first()
     contexto={}

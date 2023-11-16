@@ -223,7 +223,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                {% if perms.inv.view_categorias %}
+                {% if perms.inv.view_categoria %}
                 <a href="{% url 'inv:categoria_list' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Categoría</p>
@@ -231,28 +231,36 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 {% endif %}
               </li>
               <li class="nav-item">
+                {% if perms.inv.view_subcategoria %}
                 <a href="{% url 'inv:subcategoria_list' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Sub Categorías</p>
                 </a>
+                {% endif %}
               </li>
               <li class="nav-item">
+                {% if perms.inv.view_marca %}
                 <a href="{% url 'inv:marca_list' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Marca</p>
                 </a>
+                {% endif %}
               </li>
               <li class="nav-item">
+                {% if perms.inv.view_unidadmedida %}
                 <a href="{% url 'inv:um_list' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Unidad de Medida</p>
                 </a>
+                {% endif %}
               </li>
               <li class="nav-item">
+                {% if perms.inv.view_producto %}
                 <a href="{% url 'inv:producto_list' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Productos</p>
                 </a>
+                {% endif %}
               </li>
             </ul>
           </li>
@@ -267,10 +275,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
+                {% if perms.cmp.view_proveedor %}
                 <a href="{% url 'cmp:proveedor_list' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Compras</p>
                 </a>
+                {% endif %}
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">

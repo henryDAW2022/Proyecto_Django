@@ -7,26 +7,33 @@ from django.views import generic
 # para ver las categorias sera necesario estar logeado..
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.decorators import login_required, permission_required
+
 from django.http import HttpResponse
 import json  ## esto para trabajar con ajax.
+
+## importamos la vista sin permisos creada en el modulo bases
+from bases.views import SinPrivilegios
 
 
 from .models import Proveedor
 from cmp.forms import ProveedorForm
 
-class ProveedorView(LoginRequiredMixin, generic.ListView):
+class ProveedorView(SinPrivilegios, generic.ListView):
+    permission_required = "inv.view_proveedor" 
     model = Proveedor
     template_name = "cmp/proveedor_list.html"
     context_object_name = "obj"
 
-class ProveedorNew(LoginRequiredMixin,\
-                   generic.CreateView):
+class ProveedorNew(SuccessMessageMixin, SinPrivilegios,generic.CreateView):
+    permission_required="cmp.add_proveedor"
     model=Proveedor
     template_name="cmp/proveedor_form.html"
     context_object_name = 'obj'
     form_class=ProveedorForm
     success_url= reverse_lazy("cmp:proveedor_list")
-    success_message="Proveedor Nuevo"
+    success_message="Proveedor Nuevo Crado Satisfactoriamente"
 
     def form_valid(self, form):
         form.instance.uc = self.request.user
@@ -34,21 +41,23 @@ class ProveedorNew(LoginRequiredMixin,\
         return super().form_valid(form)
 
 
-class ProveedorEdit(LoginRequiredMixin,\
-                   generic.UpdateView):
+class ProveedorEdit(SuccessMessageMixin, SinPrivilegios,generic.UpdateView):
+    permission_required="cmp.change_proveedor"
     model=Proveedor
     template_name="cmp/proveedor_form.html"
     context_object_name = 'obj'
     form_class=ProveedorForm
     success_url= reverse_lazy("cmp:proveedor_list")
-    success_message="Proveedor Editado"
+    success_message="Proveedor Actualizado Satisfactoriamente"
 
     def form_valid(self, form):
         form.instance.um = self.request.user.id
         print(self.request.user.id)
         return super().form_valid(form)
 
-
+##uso de decoradores django para permisos basados en funciones
+@login_required(login_url='/login/')
+@permission_required('cmp.change_proveedor', login_url='bases:sin_privilegios')
 def proveedorDesactivar(request,id):
     template_name = 'cmp/desactivar_prv.html'
     contexto = {}
