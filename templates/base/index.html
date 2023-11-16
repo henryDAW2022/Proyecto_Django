@@ -262,6 +262,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
                 {% endif %}
               </li>
+              <li class="nav-item">
+                {% if perms.cmp.view_proveedor %}
+                <a href="{% url 'cmp:proveedor_list' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Proveedores</p>
+                </a>
+                {% endif %}
+              </li>
             </ul>
           </li>
           <li class="nav-item">
@@ -275,12 +283,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                {% if perms.cmp.view_proveedor %}
-                <a href="{% url 'cmp:proveedor_list' %}" class="nav-link">
+                <!-- {% if perms.cmp.view_compra %} -->
+                <a href="{% url 'cmp:compras_list' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Compras</p>
                 </a>
-                {% endif %}
+                <!-- {% endif %} -->
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">

@@ -15,9 +15,10 @@ import json  ## esto para trabajar con ajax.
 
 ## importamos la vista sin permisos creada en el modulo bases
 from bases.views import SinPrivilegios
+from inv.models import Producto
 
 
-from .models import Proveedor
+from .models import Proveedor, ComprasDet, ComprasEnc
 from cmp.forms import ProveedorForm
 
 class ProveedorView(SinPrivilegios, generic.ListView):
@@ -76,3 +77,15 @@ def proveedorDesactivar(request,id):
         return HttpResponse('Proveedor Desactivado')
 
     return render(request,template_name,contexto)
+
+###############################################
+
+## Vistas Compras
+
+class ComprasView(SinPrivilegios, generic.ListView):
+    model = ComprasEnc
+    template_name = "cmp/compras_list.html"
+    context_object_name = "obj"
+    permission_required="cmp.view_comprasenc"
+
+
