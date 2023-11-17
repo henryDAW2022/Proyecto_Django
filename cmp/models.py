@@ -1,5 +1,10 @@
 from django.db import models
 
+#Para los signals
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
+from django.db.models import Sum
+
 # importo el modelo abstracto que creamos en bases
 from bases.models import ClaseModelo
 from inv.models import Producto
@@ -83,3 +88,39 @@ class ComprasDet(ClaseModelo):
     class Meta:
         verbose_name_plural = "Detalles de Compras"
         verbose_name="Detalle de Compra"
+
+
+## aplico decoradores, cuando se borre un registro saltara esta funcion.
+@receiver(post_delete, sender=ComprasDet)
+def detalle_compra_borrar(sender,instance, **kwargs):
+    id_producto = instance.producto.id  ## capturamos estas dos propiedades el que y de donde se elimino.
+    id_compra = instance.compra.id
+
+    enc = ComprasEnc.objects.filter(pk=id_compra).first()  ## capturamos el id del encabezado de compra.
+    if enc:  ## si existe realizamos los calculos y almacenamos.
+        sub_total = ComprasDet.objects.filter(compra=id_compra).aggregate(Sum('sub_total'))
+        descuento = ComprasDet.objects.filter(compra=id_compra).aggregate(Sum('descuento'))
+        enc.sub_total=sub_total['sub_total__sum']
+        enc.descuento=descuento['descuento__sum']
+        enc.save()
+    
+    prod=Producto.objects.filter(pk=id_producto).first()  ## lo mismo con producto, buscamos, y calculamos cantidades para existencias.
+    if prod:
+        cantidad = int(prod.existencia) - int(instance.cantidad)
+        prod.existencia = cantidad
+        prod.save()
+
+
+## aplico decoradores, cuando se guarde un registro saltara esta funcion.
+@receiver(post_save, sender=ComprasDet)
+def detalle_compra_guardar(sender,instance,**kwargs):  ## Lo mismo para que arriba.
+    id_producto = instance.producto.id
+    fecha_compra=instance.compra.fecha_compra
+
+    prod=Producto.objects.filter(pk=id_producto).first()
+    if prod:
+        cantidad = int(prod.existencia) + int(instance.cantidad)
+        prod.existencia = cantidad
+        prod.ultima_compra=fecha_compra
+        prod.save()
+
