@@ -3,25 +3,48 @@
 {% block content_wrapper %}
 <!-- Bloque de titulo del bloque contenido -->
 
+<div class="content-header">
+  <div class="container-fluid">
+      <div class="row mb-2">
+          <div class="col-sm-6">
+              <h1 class="m-0">Listado de Compras</h1>
+          </div> <!-- /.col -->
+          <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="/">Home</a></li>
+                  <li class="breadcrumb-item active">Listado de Compras</li>
+              </ol>
+          </div> <!-- /.col -->
+      </div> <!-- /.row -->
+  </div> <!-- /.container-fluid -->
+</div>
 {% endblock content_wrapper %}
 
 {% block content %}
 
 <div class="card shadow mb-4">
     <!-- Card Header - Dropdown -->
-    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-      <h6 class="m-0 font-weight-bold text-primary">Listado de Compras</h6>
-      <div class="dropdown no-arrow">
+    <div class="card-header py-3 d-flex flex-row align-items-center ">
+      <!-- <h6 class="m-0 font-weight-bold text-primary">Listado de Compras</h6> -->
+      <!-- <div class="dropdown no-arrow">
         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
           <div class="dropdown-header">Acciones:</div>
-          <a class="dropdown-item" href="#}"><i class="far fa-calendar-plus"></i> Nueva</a>
+          <a class="dropdown-item" href="{% url 'cmp:compras_new' %}"><i class="far fa-calendar-plus"></i> Nueva</a>
           <a class="dropdown-item" href="#" target="reportes"><i class="fas fa-print"></i> Listado</a>
         </div>
-      </div>
+      </div> -->
+      
+          
+    
+    
+      <a class="btn btn bg-info" href="{% url 'cmp:compras_new' %}"><i class="fas fa-plus-circle"></i>&nbsp; Crear Nueva Compra</a>
+      &nbsp;&nbsp;
+      <a class="btn btn bg-warning" href="#" target="reportes"><i class="fas fa-print"></i>&nbsp; Ver Listado de Compras</a>
     </div>
+  
     <!-- Card Body -->
     <div class="card-body">
       {% if not obj %}
@@ -53,7 +76,7 @@
             <td>{{ item.total }}</td>
             <td>{{item.estado|yesno:"Activo,Inactivo"}}</td>
             <td>
-              <a class="btn btn-warning btn-circle" href="#"><i class="far fa-edit"></i></a>
+              <a class="btn btn-warning btn-circle" href="{% url 'cmp:compras_edit' item.id %}"><i class="far fa-edit"></i></a>
               <a class="btn btn-success btn-circle" href="#" target="reportes"><i class="fas fa-print"></i></a>
             </td>
           </tr>

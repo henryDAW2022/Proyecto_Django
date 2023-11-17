@@ -25,6 +25,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{% static 'plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+  <!-- XDSoft DateTimePicker -->  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />  
+
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -458,7 +461,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
 <!-- AdminLTE App -->
 <script src="{% static 'dist/js/adminlte.min.js' %}"></script>
-
+<!-- DateTimePicker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>  
+<script>
+  $(document).ready(function () {
+    jQuery.datetimepicker.setLocale('es');
+  });
+</script>
 
 <!-- Aplico algo de JQuery para hacer algunos objetos dinamicos-->
 <script>

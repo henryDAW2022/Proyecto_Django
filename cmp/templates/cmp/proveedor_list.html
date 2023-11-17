@@ -3,14 +3,29 @@
 {% block content_wrapper %}
 <!-- Bloque de titulo del bloque contenido -->
 
+<div class="content-header">
+  <div class="container-fluid">
+      <div class="row mb-2">
+          <div class="col-sm-6">
+              <h1 class="m-0">Listado de Proveedores</h1>
+          </div> <!-- /.col -->
+          <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="/">Home</a></li>
+                  <li class="breadcrumb-item active">Listado de Proveedores</li>
+              </ol>
+          </div> <!-- /.col -->
+      </div> <!-- /.row -->
+  </div> <!-- /.container-fluid -->
+</div>
 {% endblock content_wrapper %}
 
 {% block content %}   <!--En esta plantilla tambien aplicaremos ventanas modales para seguir aprendiendo sobre ello -->
 <div class="card shadow mb-4">
     <!-- Card Header - Dropdown -->
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-      <h6 class="m-0 font-weight-bold text-primary">Listado de Proveedor</h6>
-      <div class="dropdown no-arrow">
+      <!-- <h6 class="m-0 font-weight-bold text-primary">Listado de Proveedor</h6> -->
+      <!-- <div class="dropdown no-arrow">
         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
         </a>
@@ -18,7 +33,8 @@
           <div class="dropdown-header">Acciones:</div>
           <a class="dropdown-item" onclick="return abrir_modal('{% url 'cmp:proveedor_new' %}')" href="#"><i class="far fa-calendar-plus"></i> Nuevo</a>
         </div>
-      </div>
+      </div> -->
+      <a class="btn bg-info" onclick="return abrir_modal('{% url 'cmp:proveedor_new' %}')" href="#"><i class="fas fa-plus-circle"></i> Add. Nuevo</a>
     </div>
     <!-- Card Body -->
     <div class="card-body">
