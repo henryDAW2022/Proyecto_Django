@@ -4,6 +4,8 @@ from django.utils.http import urlquote
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
+from django_userforeignkey.models.fields import UserForeignKey  ## Para el modelo2
+
 ## Importamos el manager
 from .manager import UsuarioManager
 
@@ -52,3 +54,16 @@ class ClaseModelo(models.Model):
 
     class Meta:
         abstract=True  ## Esto se hace para que no se migre este modelo a la base de datos. ya q hemos hecho un modelo abstracto.
+
+## Nueva clase utilizando otra forma foreignkey
+class ClaseModelo2(models.Model):
+    estado = models.BooleanField(default=True)
+    fc = models.DateTimeField(auto_now_add=True)
+    fm = models.DateTimeField(auto_now=True)
+    # uc = models.ForeignKey(User, on_delete=models.CASCADE)
+    # um = models.IntegerField(blank=True,null=True)
+    uc = UserForeignKey(auto_user_add=True,related_name='+')
+    um = UserForeignKey(auto_user=True,related_name='+')
+
+    class Meta:
+        abstract=True

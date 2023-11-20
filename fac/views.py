@@ -1,3 +1,5 @@
+
+from datetime import datetime
 from django.shortcuts import render
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required, permission_required
@@ -7,8 +9,9 @@ from django.views import generic
 from bases.views import SinPrivilegios
 
 
-from .models import Cliente
+from .models import Cliente, FacturaEnc,FacturaDet
 from .forms import ClienteForm
+import inv.views as inv
 
 
 class ClienteView(SinPrivilegios, generic.ListView):
@@ -98,3 +101,31 @@ def clienteDesactivar(request,id):
         return HttpResponse("FAIL")
     
     return HttpResponse("FAIL")
+
+class FacturaView(SinPrivilegios, generic.ListView):
+    model = FacturaEnc
+    template_name = "fac/factura_list.html"
+    context_object_name = "obj"
+    permission_required="fac.view_facturaenc"
+
+
+
+@login_required(login_url='/login/')
+@permission_required('fac.change_facturaenc', login_url='bases:sin_privilegios')
+def facturas(request,id=None):
+    template_name='fac/facturas.html'
+
+    encabezado = {
+        'fecha':datetime.today()
+    }
+    detalle = {}
+    clientes = Cliente.objects.filter(estado=True)
+
+    contexto = {"enc":encabezado,"det":detalle,"clientes":clientes}
+    
+    return render(request,template_name,contexto)
+
+
+## Reutilizacion de vistas, simplemente estamos redirigiendo a otra plantilla.
+class ProductoView(inv.ProductoView):
+    template_name="fac/buscar_producto.html"

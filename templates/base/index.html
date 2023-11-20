@@ -27,6 +27,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
   <!-- XDSoft DateTimePicker -->  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />  
+  <!-- Select2 -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 </head>
 <body class="hold-transition sidebar-mini">
@@ -302,7 +304,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- {% endif %} -->
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{% url 'fac:factura_list' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Facturas</p>
                 </a>
@@ -476,6 +478,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
     jQuery.datetimepicker.setLocale('es');
   });
 </script>
+
+
+<!-- Select2 -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+
 
 <!-- Aplico algo de JQuery para hacer algunos objetos dinamicos-->
 <script>
