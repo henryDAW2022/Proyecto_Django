@@ -1,18 +1,19 @@
 
 from datetime import datetime
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required, permission_required
 from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.views import generic
 from bases.views import SinPrivilegios
+from django.contrib import messages
 
 
 from .models import Cliente, FacturaEnc,FacturaDet
 from .forms import ClienteForm
 import inv.views as inv
-
+from inv.models import Producto
 
 class ClienteView(SinPrivilegios, generic.ListView):
     model = Cliente
@@ -115,14 +116,87 @@ class FacturaView(SinPrivilegios, generic.ListView):
 def facturas(request,id=None):
     template_name='fac/facturas.html'
 
-    encabezado = {
-        'fecha':datetime.today()
-    }
+    # encabezado = {
+    #     'fecha':datetime.today()
+    # }
     detalle = {}
     clientes = Cliente.objects.filter(estado=True)
 
-    contexto = {"enc":encabezado,"det":detalle,"clientes":clientes}
-    
+    ## Compruebo que el metodo sea GET
+    if request.method == "GET":
+        enc = FacturaEnc.objects.filter(pk=id).first() ## filtro el modelo por id.
+
+        ## Compruebo si no existe, y lo inicializo el encabezado con los atributos
+        if not enc:
+            encabezado = {
+                'id':0,
+                'fecha':datetime.today(),
+                'cliente':0,
+                'sub_total':0,
+                'descuento':0,
+                'total': 0
+            }
+            detalle=None
+        else:
+            encabezado = {
+                'id':enc.id,
+                'fecha':enc.fecha,
+                'cliente':enc.cliente,
+                'sub_total':enc.sub_total,
+                'descuento':enc.descuento,
+                'total':enc.total
+            }
+
+        detalle=FacturaDet.objects.filter(factura=enc)
+        contexto = {"enc":encabezado,"det":detalle,"clientes":clientes}
+
+    ## si es de tipo post, capturamos los parametros, 
+    if request.method == "POST":
+        cliente = request.POST.get("enc_cliente")
+        fecha  = request.POST.get("fecha")
+        cli=Cliente.objects.get(pk=cliente)  ## verifico si existe el cliente por medio de capturar id.
+
+        if not id: ## si no existe id la factura es nueva.
+            enc = FacturaEnc(
+                cliente = cli,
+                fecha = fecha
+            )
+            if enc:
+                enc.save()
+                id = enc.id
+        else:
+            enc = FacturaEnc.objects.filter(pk=id).first() ## si si existe filtramos
+            if enc:
+                enc.cliente = cli ## lo unico que se puede modificar en este caso.
+                enc.save()
+
+        if not id:
+            messages.error(request,'No existe No. de Factura')
+            return redirect("fac:factura_list")
+        
+        codigo = request.POST.get("codigo")
+        cantidad = request.POST.get("cantidad")
+        precio = request.POST.get("precio")
+        s_total = request.POST.get("sub_total_detalle")
+        descuento = request.POST.get("descuento_detalle")
+        total = request.POST.get("total_detalle")
+
+        prod = Producto.objects.get(codigo=codigo) ## capturamos los parametros del producto
+        det = FacturaDet(
+            factura = enc,
+            producto = prod,
+            cantidad = cantidad,
+            precio = precio,
+            sub_total = s_total,
+            descuento = descuento,
+            total = total
+        )
+        
+        if det:
+            det.save()
+        
+        return redirect("fac:factura_edit",id=id)
+
     return render(request,template_name,contexto)
 
 
