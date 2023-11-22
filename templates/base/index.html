@@ -220,17 +220,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
                with font-awesome or any other icon font library -->
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-clipboard-list"></i>
               <p>
                 Catálogo
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
+              
+              <li class="nav-item">
+                {% if perms.inv.view_producto %}
+                <a href="{% url 'inv:producto_list' %}" class="nav-link">
+                  <i class="fas fa-angle-right nav-icon"></i>
+                  <p>Productos</p>
+                </a>
+                {% endif %}
+              </li>
               <li class="nav-item">
                 {% if perms.inv.view_categoria %}
                 <a href="{% url 'inv:categoria_list' %}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-angle-right nav-icon"></i>
                   <p>Categoría</p>
                 </a>
                 {% endif %}
@@ -238,7 +247,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li class="nav-item">
                 {% if perms.inv.view_subcategoria %}
                 <a href="{% url 'inv:subcategoria_list' %}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-angle-right nav-icon"></i>
                   <p>Sub Categorías</p>
                 </a>
                 {% endif %}
@@ -246,7 +255,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li class="nav-item">
                 {% if perms.inv.view_marca %}
                 <a href="{% url 'inv:marca_list' %}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-angle-right nav-icon"></i>
                   <p>Marca</p>
                 </a>
                 {% endif %}
@@ -254,32 +263,38 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li class="nav-item">
                 {% if perms.inv.view_unidadmedida %}
                 <a href="{% url 'inv:um_list' %}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-angle-right nav-icon"></i>
                   <p>Unidad de Medida</p>
                 </a>
                 {% endif %}
               </li>
+              
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link ">
+              <i class="nav-icon fas fa-address-book"></i>
+              <p>
+                Gestionar
+                <!-- <span class="right badge badge-danger">New</span> -->
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              
               <li class="nav-item">
-                {% if perms.inv.view_producto %}
-                <a href="{% url 'inv:producto_list' %}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Productos</p>
+                {% if perms.fac.view_cliente %}
+                <a href="{% url 'fac:cliente_list' %}" class="nav-link">
+                  <i class="fas fa-angle-right nav-icon"></i>
+                  <p>Clientes</p>
                 </a>
                 {% endif %}
               </li>
               <li class="nav-item">
                 {% if perms.cmp.view_proveedor %}
                 <a href="{% url 'cmp:proveedor_list' %}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-angle-right nav-icon"></i>
                   <p>Proveedores</p>
-                </a>
-                {% endif %}
-              </li>
-              <li class="nav-item">
-                {% if perms.fac.view_cliente %}
-                <a href="{% url 'fac:cliente_list' %}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Clientes</p>
                 </a>
                 {% endif %}
               </li>
@@ -287,7 +302,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link ">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-shopping-cart"></i>
               <p>
                 Movimientos
                 <!-- <span class="right badge badge-danger">New</span> -->
@@ -298,15 +313,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li class="nav-item">
                 <!-- {% if perms.cmp.view_compra %} -->
                 <a href="{% url 'cmp:compras_list' %}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class=" fas fa-angle-right nav-icon"></i>
                   <p>Compras</p>
                 </a>
                 <!-- {% endif %} -->
               </li>
               <li class="nav-item">
                 <a href="{% url 'fac:factura_list' %}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Facturas</p>
+                  <i class="fas fa-angle-right nav-icon"></i>
+                  <p>Ventas</p>
                 </a>
               </li>
             </ul>
@@ -422,8 +437,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Control sidebar content goes here -->
     <div class="p-3">
       <h5>Administración de Usuarios</h5>
-      <p><a href="{% url 'config:users_list' %}" rel="noopener noreferrer"><i class="fas fa-user-lock"></i>Usuarios</a></p>
-      <p><a href="{% url 'config:user_groups_list' %}" rel="noopener noreferrer"><i class="fas fa-user"></i>Grupos</a></p>
+      <p><a href="{% url 'config:users_list' %}" rel="noopener noreferrer"><i class="fas fa-user-plus"></i>&nbsp;&nbsp; Usuarios</a></p>
+      <p><a href="{% url 'config:user_groups_list' %}" rel="noopener noreferrer"><i class="fas fa-users"></i>&nbsp;&nbsp; Grupos</a></p>
     </div>
   </aside>
   <!-- /.control-sidebar -->

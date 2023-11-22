@@ -132,8 +132,8 @@ def facturas(request,id=None):
                 'id':0,
                 'fecha':datetime.today(),
                 'cliente':0,
-                'sub_total':0,
-                'descuento':0,
+                'sub_total':0.00,
+                'descuento':0.00,
                 'total': 0
             }
             detalle=None
