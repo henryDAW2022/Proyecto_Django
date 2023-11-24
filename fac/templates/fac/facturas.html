@@ -27,7 +27,7 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <a href="#" class="btn btn-success"><i class="fa fa-save "></i>&nbsp; Guardar</a>
-        <a href="{# url 'fac:factura_imprimir_one' enc.id #}" class="btn btn-warning" target="_factura"><i class="fa fa-print "></i>&nbsp; Imprimir</a>
+        <a href="{# url 'fac:facturas_print_all' #}" class="btn btn-warning" target="_factura"><i class="fa fa-print "></i>&nbsp; Imprimir</a>
         <a href="{% url 'fac:factura_list' %}" class="btn btn-danger"><i class="fas fa-minus-circle"></i>&nbsp; Cancelar</a>
     </div>
     <div class="card-body">
@@ -200,7 +200,7 @@
                                 <td>{{ item.total }}</td>
                             <td>
                                 <button type="button" class="btn btn-warning btn-circle"
-                                    >
+                                    onclick="borrar_detalle('{{ item.id }}')">
                                     <i class="fas fa-history"></i>
                                 </button>
                                 
@@ -292,5 +292,71 @@ $(function () {
     $("#total").val({{ enc.total }});
     
 });
+function borrar_detalle(id)
+    {
+        // mensaje(id);
+        $.confirm({
+            theme:"modern",
+            icon:"fab fa-keycdn",
+            type:'red',
+            title: "Confirmación Requerida",
+            content: 'url:/fac/facturas/borrar-detalle/' + id,
+            onContentReady: function () {
+                var self = this;
+                this.$content.find('#usuario').val('{{ user.username }}');
+                this.$content.find('#usuario').select();
+                this.$content.find('#usuario').focus();
+            },
+            buttons:{
+                borrar:{
+                    text:"Borrar",
+                    btnClass:"btn btn-danger",
+                    action: function(){
+                        var usuario = this.$content.find('input#usuario');
+	                    var pass = this.$content.find('input#password');
+
+                        if(!usuario.val().trim()){
+                            mensaje("Usuario es requerido",'red');
+                            return false;
+                        }
+
+                        if(!pass.val().trim()){
+                            // $.alert({
+                            //     title:"Error",
+                            //     content: "Contraseña es Requerida",
+                            //     type: 'red'
+                            // });
+                            mensaje("Contraseña es Requerida","red");
+                            return false;
+                        }
+
+                        var data = {"usuario":usuario.val(),"pass":pass.val()};
+	                    console.log(data);
+
+                        var token = '{{csrf_token}}';
+                        $.ajax({
+                            headers: { "X-CSRFToken": token },
+                            type:"POST",
+                            data:data,
+                            url: '/fac/facturas/borrar-detalle/' + id,
+                            success: function(r){
+                                console.log(r);
+                                if(r==="ok"){
+                                    location.reload(true);
+                                }else{
+                                    mensaje(r,'red');
+                                }
+                            },
+                            error: function(a,b,c){
+                                mensaje(c);
+                            }
+                        });
+                    }
+                    },
+                cancelar: function(){}
+                }
+        });
+    }
+
 </script>
 {% endblock js %}

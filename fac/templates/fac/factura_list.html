@@ -24,7 +24,7 @@
 
 <div class="card shadow mb-4">
   <!-- Card Header - Dropdown -->
-  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+  <div class="card-header py-3 d-flex flex-row  ">
     <!-- <h6 class="m-0 font-weight-bold text-primary">Listado de Facturas</h6> -->
     <!-- <div class="dropdown no-arrow">
       <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -36,10 +36,12 @@
       </div>
     </div> -->
     <a class="btn bg-info" href="{% url 'fac:factura_new' %}"><i class="fas fa-plus-circle"></i> &nbsp;Add. Nueva</a>
+    &nbsp;&nbsp;
+    <a class="btn btn bg-warning" href="{% url 'fac:facturas_print_all' %}" target="reportes"><i class="fas fa-print"></i>&nbsp; Imprimir Listado de Ventas</a>
   </div>
   <!-- Card Body -->
   <div class="card-body">
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-md-4">
         <input type="text" class="form-class" name="f1" id="f1" readonly>
       </div>
@@ -49,8 +51,8 @@
       <div class="col-md-4">
         <button class="btn btn-warning" type="button" id="btnPrint">Imprimir</button>
       </div>
-    </div>
-    <hr>
+    </div> -->
+    <!-- <hr> -->
 
     
     {% if not obj %}
