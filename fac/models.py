@@ -63,6 +63,9 @@ class FacturaEnc(ClaseModelo2):
     class Meta:
         verbose_name_plural = "Encabezado Facturas"
         verbose_name="Encabezado Factura"
+        permissions = [
+            ('sup_caja_facturaenc','Permisos de Supervisor de Caja Encabezado')
+        ]
 
 
 ## Modelo Lineas de Factura
@@ -86,6 +89,9 @@ class FacturaDet(ClaseModelo2):
     class Meta:
         verbose_name_plural = "Detalles Facturas"
         verbose_name="Detalle Factura"
+        permissions = [
+            ('sup_caja_facturadet','Permisos de Supervisor de Caja Detalle')
+        ]
 
 ## detalle de factura, copiamos algunos procesos de compras. en realacion a los signals, y logica.
 @receiver(post_save, sender=FacturaDet)

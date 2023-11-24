@@ -7,12 +7,12 @@
   <div class="container-fluid">
       <div class="row mb-2">
           <div class="col-sm-6">
-              <h1 class="m-0">Nueva Factura</h1>
+              <h1 class="m-0">{% if enc %} Editar {% else %} Nueva {% endif %} Venta</h1>
           </div> <!-- /.col -->
           <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                   <li class="breadcrumb-item"><a href="/">Home</a></li>
-                  <li class="breadcrumb-item active">Nueva Factura</li>
+                  <li class="breadcrumb-item active">{% if enc %} Editar {% else %} Nueva {% endif %} Venta</li>
               </ol>
           </div> <!-- /.col -->
       </div> <!-- /.row -->
@@ -28,7 +28,7 @@
     <div class="card-header py-3">
         <a href="#" class="btn btn-success"><i class="fa fa-save "></i>&nbsp; Guardar</a>
         <a href="{# url 'fac:factura_imprimir_one' enc.id #}" class="btn btn-warning" target="_factura"><i class="fa fa-print "></i>&nbsp; Imprimir</a>
-        <a href="{# url 'fac:factura_list' #}" class="btn btn-danger"><i class="fas fa-minus-circle"></i>&nbsp; Cancelar</a>
+        <a href="{% url 'fac:factura_list' %}" class="btn btn-danger"><i class="fas fa-minus-circle"></i>&nbsp; Cancelar</a>
     </div>
     <div class="card-body">
         <div class="content">
@@ -203,6 +203,7 @@
                                     >
                                     <i class="fas fa-history"></i>
                                 </button>
+                                
                             </td>
                             </tr>
                             {% endfor %}
