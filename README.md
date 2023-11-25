@@ -33,16 +33,17 @@
 
 💻📝
 
-- [x] Tarea 1
-- [x] Tarea 2
-- [x] Tarea 3
-- [ ] Tarea 4
-- [ ] Tarea 5
+- [x] Diseño UI
+- [x] Base de Datos
+- [x] lógica usuarios
+- [x] vista login/logout
+- [x] vista formularios modulo catalogo(producto,marca,categoría,etc..)
+- [ ] .....
 
 
 <h3 align="left">Vista Final:</h3><a name="2"></a>
 
-
+![image](https://drive.google.com/uc?export=view&id=1qJbJrtDSs3io3GgrhRDnwuvz0zQj49mL)
 
 
 ## Otro Apartado
