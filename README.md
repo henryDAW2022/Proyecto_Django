@@ -6,39 +6,21 @@
 ## Tabla de Contenidos
 - [Introduccion](#1)
     - [Vista Final](#2)
-- [Apartado 2](#3)
-    - [Descripción](#4)
-    - [Tecnologías](#5)
-        - [Front-End](#6)https://adminlte.io/themes/v3/
-        - [Back-End](#7)
-        - [Despliegue Web](#8)
-    - [ToDo - List](#9)
-    - [Checkpoint - Finales Noviembre](#10)
-    - [Presentación - Final](#11)
-    - [Bibliografía](#12)
+- [Objetivos](#3)
+- [Diseño Base de Datos](#4)
+    - [Motor Base de Datos](#5)
+- [Tecnolgías escogidas](#6)
+    - [Front-End](#7)
+    - [Back-End](#8)
+    - [Despliegue Web](#9)
+- [ToDo - List](#10)
+- [Checkpoint - Finales Noviembre](#11)
+- [Presentación - Final](#12)
+- [Bibliografía](#13)
 
 <h3 align="left">Introduccion:</h3><a name="1"></a>
 
 > Este repositorio recoge el desarrollo del proyecto de fin de ciclo en el que se presenta un sistema de gestion para autonomos o pyme cuyo modelo de negocio es la compra venta de productos, por medio del cual se puede hacer un seguimiento de ventas y compras, y a su vez del inventario.
-
-
-
-
-
-
-
-
-
-## To-Do List <a name="9"></a>
-
-💻📝
-
-- [x] Diseño UI
-- [x] Base de Datos
-- [x] lógica usuarios
-- [x] vista login/logout
-- [x] vista formularios modulo catalogo(producto,marca,categoría,etc..)
-- [ ] .....
 
 
 <h3 align="left">Vista Final:</h3><a name="2"></a>
@@ -46,8 +28,26 @@
 ![image](https://drive.google.com/uc?export=view&id=1qJbJrtDSs3io3GgrhRDnwuvz0zQj49mL)
 
 
-## Otro Apartado
-<a name="3"></a>
+## Objetivos <a name="4"></a>
+> La creación de este proyecto surge como un desafío emocionante y educativo, con el objetivo fundamental de aplicar los conocimientos adquiridos durante el ciclo de formación en Desarrollo de Aplicaciones Web (DAW). Esta iniciativa representa una oportunidad única para explorar y poner en práctica las distintas fases de desarrollo de un proyecto web, desde la concepción de la idea hasta su implementación. 
+Enfrentamos el reto de incorporar de manera efectiva los conceptos y habilidades aprendidos, centrándonos en el lenguaje de programación Python. 
+Este proyecto no solo busca consolidar la comprensión teórica, sino también fomentar un aprendizaje activo y significativo a través de la experiencia práctica en el emocionante mundo del desarrollo web.
+
+## Diseño Base de Datos E/R
+<a name="4"></a>
+![image](https://drive.google.com/uc?export=view&id=1JTRdiImTedn1CPcf4iF8VTr3KJzJKUBY)
+
+## Motor Base de Datos
+<a name="4"></a>
+> En el trasfondo de este proyecto, se encuentra una cuidadosa elección en el motor de base de datos: PostgreSQL. Este potente sistema de gestión de bases de datos se ha convertido en la columna vertebral de esta aplicación web, respaldando la eficiencia y robustez que buscaba en el desarrollo. Sin embargo, al dar el salto a la etapa de despliegue, hemos optado por MySQL como servidor, aprovechando su disponibilidad como servicio gratuito de pythonanywhere. 
+Este cambio estratégico no solo refleja una decisión pragmática basada en recursos, sino que también ilustra la capacidad para adaptarme y encontrar soluciones prácticas. Además, la elección de PostgreSQL está alineada con la adopción del framework Django, una herramienta fundamental que acelera el proceso de desarrollo y nos permite aprovechar al máximo las capacidades de este poderoso motor de base de datos.
+
+
+
+
+
+
+
 
 
 
@@ -92,3 +92,15 @@
     - <a href=""></a>
     - <a href=""></a>
     - <a href=""></a>
+
+
+    ## To-Do List <a name="10"></a>
+
+💻📝
+
+- [x] Diseño UI
+- [x] Base de Datos
+- [x] lógica usuarios
+- [x] vista login/logout
+- [x] vista formularios modulo catalogo(producto,marca,categoría,etc..)
+- [ ] ..... https://adminlte.io/themes/v3/
